@@ -1,4 +1,4 @@
-import { SignupSchema } from "@/lib/schemas/auth";
+import { signupSchema } from "@/lib/schemas/auth";
 import { UserResponse } from "@/lib/schemas/user";
 import axios, { AxiosError } from "axios";
 import { ErrorMessage, Field, Form, Formik } from "formik";
@@ -11,13 +11,13 @@ import { Input } from "./Input";
 
 type Props = { autofocus?: boolean };
 
-const validationSchema: SignupSchema = yup.object({
-	username: yup.string().required("Username is required"),
-	password: yup.string().required("Password is required"),
-	passwordRepeat: yup
-		.string()
-		.equals([yup.ref("password")], "Passwords must match"),
-});
+const validationSchema = signupSchema.concat(
+	yup.object({
+		passwordRepeat: yup
+			.string()
+			.equals([yup.ref("password")], "Passwords must match"),
+	})
+);
 
 export const SignupForm: React.FC<Props> = ({ autofocus }) => {
 	const queryClient = useQueryClient();
