@@ -1,7 +1,10 @@
 import { Prisma } from "@prisma/client";
+import dayjs from "dayjs";
 import faker from "faker";
 import { getPasswordHash } from "../src/lib/security";
 import db from "./client";
+
+const NOW = dayjs();
 
 async function randomUserInput(
 	passwordHash?: string
@@ -29,6 +32,10 @@ function randomPostInput(authorId: number): Prisma.PostCreateManyInput {
 		title: faker.lorem.words(6),
 		body: faker.lorem.paragraphs(10, "\n\n"),
 		authorId,
+		createdAt: faker.date.between(
+			NOW.subtract(3, "year").toDate(),
+			NOW.toDate()
+		),
 	};
 }
 
@@ -42,8 +49,8 @@ async function main() {
 		data: users,
 	});
 
-	const posts: Prisma.PostCreateManyInput[] = Array.from({ length: 20 }).map(
-		(_, index) => randomPostInput(index + 1)
+	const posts: Prisma.PostCreateManyInput[] = Array.from({ length: 100 }).map(
+		() => randomPostInput(Math.floor(1 + Math.random() * users.length))
 	);
 	await db.post.createMany({ data: posts });
 }
