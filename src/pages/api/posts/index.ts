@@ -1,7 +1,8 @@
+import { PostsQuery, postsQuerySchema } from "@/lib/schemas/post";
 import { userResponseSelect } from "@/lib/schemas/user";
 import { NextApiRequest, NextApiResponse } from "next";
 import db from "prisma/client";
-import * as yup from "yup";
+import { ValidationError } from "yup";
 
 export default async function handler(
 	req: NextApiRequest,
@@ -14,26 +15,23 @@ export default async function handler(
 	}
 }
 
-const getPostsQuerySchema = yup.object({
-	take: yup.number().positive().max(50).default(25),
-	skip: yup.number().positive(),
-});
-
 async function handleGET(req: NextApiRequest, res: NextApiResponse) {
-	let query;
+	let query: PostsQuery;
 	try {
-		query = await getPostsQuerySchema.validate(req.query);
+		query = await postsQuerySchema.validate(req.query);
 	} catch (e) {
-		return res
-			.status(400)
-			.json({ errors: (e as yup.ValidationError).errors });
+		console.log(e);
+		return res.status(400).json({ errors: (e as ValidationError).errors });
 	}
-	const { take, skip } = query;
+	const { authorId, take = 25, skip, createdAt } = query;
 
 	const posts = await db.post.findMany({
+		where: {
+			authorId,
+		},
 		take,
 		skip,
-		orderBy: { createdAt: "asc" },
+		orderBy: { createdAt },
 		include: {
 			author: { select: userResponseSelect },
 		},

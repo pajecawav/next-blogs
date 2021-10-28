@@ -6,9 +6,13 @@ import { UserLink } from "./UserLink";
 
 type PostListEntryProps = {
 	post: PostWithUserResponse;
+	showAuthor?: boolean;
 };
 
-export const PostListEntry: React.FC<PostListEntryProps> = ({ post }) => {
+export const PostListEntry: React.FC<PostListEntryProps> = ({
+	post,
+	showAuthor = true,
+}) => {
 	const createdAt = new Date(post.createdAt);
 
 	return (
@@ -18,11 +22,13 @@ export const PostListEntry: React.FC<PostListEntryProps> = ({ post }) => {
 					<a className="hover:opacity-50 ">{post.title}</a>
 				</Postlink>
 			</span>
-			<UserLink username={post.author.username}>
-				<a className="text-sm text-gray-500 hover:opacity-50">
-					{post.author.username}
-				</a>
-			</UserLink>
+			{showAuthor && (
+				<UserLink username={post.author.username}>
+					<a className="text-sm text-gray-500 hover:opacity-50">
+						{post.author.username}
+					</a>
+				</UserLink>
+			)}
 			<span
 				className="text-sm"
 				title={`Created at ${createdAt.toLocaleString()}`}

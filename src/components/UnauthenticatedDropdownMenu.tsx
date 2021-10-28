@@ -8,7 +8,9 @@ export const UnauthenticatedDropdownMenu: React.FC = () => {
 
 	return (
 		<Popover className="relative">
-			<Popover.Button className="hover:underline">Log in</Popover.Button>
+			<Popover.Button className="transition-opacity duration-100 hover:opacity-50">
+				Log in
+			</Popover.Button>
 			<Transition
 				as={Fragment}
 				enter="transition ease-out duration-200"

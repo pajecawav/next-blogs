@@ -11,7 +11,7 @@ export const AuthenticatedDropdownMenu: React.FC = () => {
 
 	return (
 		<Popover className="relative">
-			<Popover.Button className="hover:underline">
+			<Popover.Button className="transition-opacity duration-100 hover:opacity-50">
 				{user!.username}
 			</Popover.Button>
 			<Transition
