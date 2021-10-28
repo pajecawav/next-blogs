@@ -21,7 +21,7 @@ export const postResponseSelect: ObjectToBooleans<PostResponse> = {
 
 export const postsQuerySchema = yup.object({}).shape({
 	take: yup.number().positive().max(50).notRequired(),
-	skip: yup.number().positive().notRequired(),
+	cursor: yup.number().positive().notRequired(),
 	authorId: yup.number().notRequired(),
 	createdAt: orderBySchema.notRequired(),
 });
@@ -29,3 +29,8 @@ export const postsQuerySchema = yup.object({}).shape({
 export type PostsQuery = MakeUndefinesOptional<
 	yup.InferType<typeof postsQuerySchema>
 >;
+
+export type PostsResponse = {
+	posts: PostWithUserResponse[];
+	nextCursor?: number;
+};

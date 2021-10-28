@@ -23,19 +23,25 @@ async function handleGET(req: NextApiRequest, res: NextApiResponse) {
 		console.log(e);
 		return res.status(400).json({ errors: (e as ValidationError).errors });
 	}
-	const { authorId, take = 25, skip, createdAt } = query;
+	const { authorId, take = 10, createdAt, cursor } = query;
 
 	const posts = await db.post.findMany({
 		where: {
 			authorId,
 		},
 		take,
-		skip,
+		...(cursor && {
+			skip: 1,
+			cursor: { id: cursor },
+		}),
 		orderBy: { createdAt },
 		include: {
 			author: { select: userResponseSelect },
 		},
 	});
 
-	res.status(200).json(posts);
+	res.status(200).json({
+		posts,
+		nextCursor: posts.length > 0 ? posts[posts.length - 1].id : undefined,
+	});
 }
