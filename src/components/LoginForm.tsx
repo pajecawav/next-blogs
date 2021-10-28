@@ -1,6 +1,6 @@
 import { useLogin } from "@/hooks/useLogin";
 import { loginSchema } from "@/lib/schemas/auth";
-import { ErrorMessage, Field, Form, Formik } from "formik";
+import { ErrorMessage, Form, Formik } from "formik";
 import React from "react";
 import { Button } from "./Button";
 import { FormError } from "./FormError";
@@ -31,20 +31,18 @@ export const LoginForm: React.FC<Props> = ({ autofocus }) => {
 		>
 			{({ isSubmitting }) => (
 				<Form className="flex flex-col gap-1">
-					<Field
+					<Input
 						name="username"
 						type="text"
 						placeholder="username"
 						autoFocus={autofocus}
-						component={Input}
 					/>
 					<ErrorMessage name="username" component={FormError} />
 
-					<Field
+					<Input
 						name="password"
 						type="password"
 						placeholder="password"
-						component={Input}
 					/>
 					<ErrorMessage name="password" component={FormError} />
 

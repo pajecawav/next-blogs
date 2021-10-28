@@ -2,7 +2,7 @@ import { PostsList } from "@/components/PostsList";
 import { SectionTitle } from "@/components/SectionTitle";
 import { formatDate } from "@/lib/dates";
 import { UserResponse, userResponseSelect } from "@/lib/schemas/user";
-import { GetServerSideProps } from "next";
+import { GetServerSideProps, NextPage } from "next";
 import db from "prisma/client";
 import React from "react";
 import * as yup from "yup";
@@ -11,7 +11,7 @@ type Props = {
 	user: UserResponse;
 };
 
-const UserPage: React.FC<Props> = ({ user }) => {
+const UserPage: NextPage<Props> = ({ user }) => {
 	return (
 		<div>
 			<div className="mb-10">

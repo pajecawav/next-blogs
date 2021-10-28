@@ -34,7 +34,6 @@ export const PostsList: React.FC<Props> = ({ query, showAuthor = true }) => {
 		}
 	);
 
-	console.log(posts);
 	const isEmpty =
 		!isLoading && !isFetchingNextPage && posts?.pages[0].posts.length === 0;
 

@@ -2,6 +2,7 @@ import { useLogout } from "@/hooks/useLogout";
 import { useUser } from "@/hooks/useUser";
 import { Popover, Transition } from "@headlessui/react";
 import { LogoutIcon, UserIcon } from "@heroicons/react/outline";
+import Link from "next/link";
 import React, { Fragment } from "react";
 import { UserLink } from "./UserLink";
 
@@ -22,6 +23,11 @@ export const AuthenticatedDropdownMenu: React.FC = () => {
 				leaveTo="opacity-0 translate-y-0.5"
 			>
 				<Popover.Panel className="flex flex-col shadow-lg absolute z-10 mt-4 py-1 px-2 w-40 transform -translate-x-full left-full border bg-white rounded-sm">
+					<Link href="/create-post">
+						<a className="flex gap-1 items-center text-left px-2 py-1 rounded-md transition-colors duration-100 hover:bg-gray-200">
+							<span>New Post</span>
+						</a>
+					</Link>
 					<UserLink username={user!.username}>
 						<a className="flex gap-1 items-center text-left px-2 py-1 rounded-md transition-colors duration-100 hover:bg-gray-200">
 							<UserIcon className="inline w-5 h-5" />

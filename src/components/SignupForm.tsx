@@ -1,7 +1,7 @@
 import { signupSchema } from "@/lib/schemas/auth";
 import { UserResponse } from "@/lib/schemas/user";
 import axios, { AxiosError } from "axios";
-import { ErrorMessage, Field, Form, Formik } from "formik";
+import { ErrorMessage, Form, Formik } from "formik";
 import React from "react";
 import { useMutation, useQueryClient } from "react-query";
 import * as yup from "yup";
@@ -70,28 +70,25 @@ export const SignupForm: React.FC<Props> = ({ autofocus }) => {
 		>
 			{({ isSubmitting }) => (
 				<Form className="flex flex-col gap-1">
-					<Field
+					<Input
 						name="username"
 						type="text"
 						placeholder="username"
 						autoFocus={autofocus}
-						component={Input}
 					/>
 					<ErrorMessage name="username" component={FormError} />
 
-					<Field
+					<Input
 						name="password"
 						type="password"
 						placeholder="password"
-						component={Input}
 					/>
 					<ErrorMessage name="password" component={FormError} />
 
-					<Field
+					<Input
 						name="passwordRepeat"
 						type="password"
 						placeholder="repeat password"
-						component={Input}
 					/>
 					<ErrorMessage name="passwordRepeat" component={FormError} />
 

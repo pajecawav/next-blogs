@@ -34,3 +34,10 @@ export type PostsResponse = {
 	posts: PostWithUserResponse[];
 	nextCursor?: number;
 };
+
+export const createPostSchema = yup.object({}).shape({
+	title: yup.string().trim().required(),
+	body: yup.string().trim().required(),
+});
+
+export type CreatePost = yup.Asserts<typeof createPostSchema>;
