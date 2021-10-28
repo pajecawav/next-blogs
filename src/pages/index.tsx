@@ -8,7 +8,7 @@ const Home: NextPage = () => {
 		<main className="mb-10">
 			<div>
 				<SectionTitle>Latest</SectionTitle>
-				<PostsList query={{ createdAt: "asc" }} />
+				<PostsList query={{ createdAt: "desc" }} />
 			</div>
 		</main>
 	);
