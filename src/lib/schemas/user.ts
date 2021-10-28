@@ -1,5 +1,5 @@
 import * as yup from "yup";
-import { ObjectToOptionalBooleans } from "../types";
+import { ObjectToBooleans } from "../types";
 
 export const userResponseSchema = yup.object({
 	id: yup.number().required(),
@@ -10,7 +10,7 @@ export const userResponseSchema = yup.object({
 
 export type UserResponse = yup.Asserts<typeof userResponseSchema>;
 
-export const userResponseSelect: ObjectToOptionalBooleans<UserResponse> = {
+export const userResponseSelect: ObjectToBooleans<UserResponse> = {
 	id: true,
 	username: true,
 	bio: true,

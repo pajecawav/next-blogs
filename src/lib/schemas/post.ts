@@ -1,6 +1,6 @@
 import { Post, User } from ".prisma/client";
 import * as yup from "yup";
-import { ObjectToOptionalBooleans } from "../types";
+import { ObjectToBooleans } from "../types";
 import { MakeUndefinesOptional, orderBySchema } from "./utils";
 
 export type PostResponse = Post & {
@@ -10,7 +10,7 @@ export type PostResponse = Post & {
 
 export type PostWithUserResponse = PostResponse & { author: User };
 
-export const postResponseSelect: ObjectToOptionalBooleans<PostResponse> = {
+export const postResponseSelect: ObjectToBooleans<PostResponse> = {
 	id: true,
 	title: true,
 	body: true,
