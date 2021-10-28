@@ -22,7 +22,10 @@ const UserPage: React.FC<Props> = ({ user }) => {
 			</div>
 			<div>
 				<SectionTitle>Posts</SectionTitle>
-				<PostsList query={{ authorId: user.id }} showAuthor={false} />
+				<PostsList
+					query={{ authorId: user.id, createdAt: "desc" }}
+					showAuthor={false}
+				/>
 			</div>
 		</div>
 	);
