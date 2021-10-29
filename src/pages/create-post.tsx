@@ -1,6 +1,7 @@
 import { Button } from "@/components/Button";
 import { Input } from "@/components/Input";
 import { Textarea } from "@/components/Textarea";
+import { useUser } from "@/hooks/useUser";
 import { CreatePost, createPostSchema, PostResponse } from "@/lib/schemas/post";
 import axios from "axios";
 import { Form, Formik } from "formik";
@@ -10,6 +11,7 @@ import React from "react";
 import { useMutation } from "react-query";
 
 const CreatePostPage: NextPage = () => {
+	const { isLoggedIn } = useUser();
 	const router = useRouter();
 
 	const { mutate: createPost } = useMutation(
@@ -29,8 +31,12 @@ const CreatePostPage: NextPage = () => {
 		<div className="bg-white pt-3 pb-5 px-5 rounded shadow-sm">
 			<Formik
 				initialValues={{ title: "", body: "" }}
-				onSubmit={values => {
-					createPost(values);
+				onSubmit={(values, { setSubmitting }) => {
+					if (isLoggedIn) {
+						createPost(values);
+					} else {
+						setSubmitting(false);
+					}
 				}}
 				validationSchema={createPostSchema}
 				validateOnBlur={false}
@@ -54,13 +60,19 @@ const CreatePostPage: NextPage = () => {
 						/>
 
 						<div>
-							<Button
-								type="submit"
-								disabled={!isValid || isSubmitting}
-								isProcessing={isSubmitting}
-							>
-								Submit
-							</Button>
+							{isLoggedIn ? (
+								<Button
+									type="submit"
+									disabled={!isValid || isSubmitting}
+									isProcessing={isSubmitting}
+								>
+									Submit
+								</Button>
+							) : (
+								<div className="text-gray-400">
+									Please log in to create posts
+								</div>
+							)}
 						</div>
 					</Form>
 				)}
