@@ -1,7 +1,7 @@
 import { normalizePostSlug } from "@/lib/normalize";
 import { LinkIcon } from "@heroicons/react/outline";
 import classNames from "classnames";
-import { DetailedHTMLProps, HTMLAttributes } from "react";
+import React, { DetailedHTMLProps, HTMLAttributes } from "react";
 
 type Props = DetailedHTMLProps<
 	HTMLAttributes<HTMLHeadingElement>,
@@ -19,10 +19,18 @@ const levelClassNames: Record<number, string> = {
 	6: "",
 };
 
+function flatten(text: string, child: any): string {
+	return typeof child === "string"
+		? text + child
+		: React.Children.toArray(child.props.children).reduce(flatten, text);
+}
+
 export const Heading: React.FC<Props> = ({ level, children, ...props }) => {
 	const Component = `h${level}` as "h1";
 
-	const text = (children as string[])?.[0];
+	// extract heading from children: https://github.com/remarkjs/react-markdown/issues/69
+	const childrenArray = React.Children.toArray(children);
+	const text = childrenArray.reduce(flatten, "");
 	const id = text ? normalizePostSlug(text) : undefined;
 
 	return (
