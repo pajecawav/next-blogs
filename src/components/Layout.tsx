@@ -10,7 +10,7 @@ export const Layout: React.FC<Props> = ({ children }) => {
 
 	if (isLoading) {
 		return (
-			<div className="w-screen h-screen grid place-items-center text-red-200">
+			<div className="w-screen h-screen grid place-items-center">
 				<LoadingPlaceholder className="h-10 w-10" />
 			</div>
 		);
@@ -19,7 +19,7 @@ export const Layout: React.FC<Props> = ({ children }) => {
 	return (
 		<div>
 			<Header />
-			<div className="w-full max-w-3xl mx-auto mt-3 px-1 md:px-0 md:mt-10">
+			<div className="w-full max-w-3xl mx-auto mt-3 mb-8 px-1 md:px-0 md:mt-10">
 				{children}
 			</div>
 		</div>

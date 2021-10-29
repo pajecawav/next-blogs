@@ -5,7 +5,7 @@ import React from "react";
 
 const Home: NextPage = () => {
 	return (
-		<main className="mb-10">
+		<main>
 			<div>
 				<SectionTitle>Latest</SectionTitle>
 				<PostsList query={{ createdAt: "desc" }} />
