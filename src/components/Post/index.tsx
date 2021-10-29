@@ -1,5 +1,5 @@
 import Link from "next/link";
-import React from "react";
+import React, { useEffect } from "react";
 import ReactMarkdown from "react-markdown";
 import { Heading } from "./Heading";
 
@@ -8,6 +8,15 @@ type Props = {
 };
 
 export const Post: React.FC<Props> = ({ children }) => {
+	useEffect(() => {
+		const id = window.location.hash;
+		if (id) {
+			document
+				.getElementById(id.slice(1))
+				?.scrollIntoView({ behavior: "smooth", block: "center" });
+		}
+	}, []);
+
 	return (
 		<ReactMarkdown
 			className="leading-8"
@@ -49,7 +58,7 @@ export const Post: React.FC<Props> = ({ children }) => {
 				p: ({ node, ...props }) => <p {...props} className="my-4" />,
 				pre: ({ node, ...props }) => (
 					<pre
-						className="rounded bg-gray-100 px-4 leading-normal"
+						className="rounded bg-gray-100 px-4 py-2 leading-normal"
 						{...props}
 					/>
 				),

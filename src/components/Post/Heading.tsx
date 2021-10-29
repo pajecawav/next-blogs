@@ -1,4 +1,5 @@
 import { normalizePostSlug } from "@/lib/normalize";
+import { LinkIcon } from "@heroicons/react/outline";
 import classNames from "classnames";
 import { DetailedHTMLProps, HTMLAttributes } from "react";
 
@@ -27,10 +28,15 @@ export const Heading: React.FC<Props> = ({ level, children, ...props }) => {
 	return (
 		<Component
 			id={id}
-			className={classNames(levelClassNames[level])}
+			className={classNames("w-max group", levelClassNames[level])}
 			{...props}
 		>
-			{children}
+			<span className="mr-3">{children}</span>
+			{id && (
+				<a href={`#${id}`} className="inline-block align-middle">
+					<LinkIcon className="w-5 h-5 opacity-0 transition-opacity duration-75 group-hover:opacity-100" />
+				</a>
+			)}
 		</Component>
 	);
 };
