@@ -1,3 +1,4 @@
+import classNames from "classnames";
 import Link from "next/link";
 import React, { useEffect } from "react";
 import ReactMarkdown from "react-markdown";
@@ -44,8 +45,14 @@ export const Post: React.FC<Props> = ({ children }) => {
 				h5: ({ node, ...props }) => <Heading {...props} />,
 				h6: ({ node, ...props }) => <Heading {...props} />,
 				hr: ({ node, ...props }) => <hr {...props} className="my-4" />,
-				li: ({ node, children, index, ...props }) => (
-					<li className="list-inside list-decimal" {...props}>
+				li: ({ node, children, index, ordered, ...props }) => (
+					<li
+						className={classNames(
+							"list-inside",
+							ordered ? "list-decimal" : "list-disc"
+						)}
+						{...props}
+					>
 						{children}
 					</li>
 				),
