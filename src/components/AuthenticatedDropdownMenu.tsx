@@ -26,30 +26,28 @@ export const AuthenticatedDropdownMenu: React.FC = () => {
 				<Menu.Items className="flex flex-col shadow-lg absolute z-10 mt-4 py-1 px-2 w-40 transform -translate-x-full left-full border bg-white rounded-sm">
 					<Menu.Item>
 						{({ active }) => (
-							<WrappedLink href="/create-post">
-								<a
-									className={classNames(
-										"flex gap-1 items-center text-left px-2 py-1 rounded-md transition-colors duration-100",
-										active && "bg-gray-200"
-									)}
-								>
-									New Post
-								</a>
+							<WrappedLink
+								href="/create-post"
+								className={classNames(
+									"flex gap-1 items-center text-left px-2 py-1 rounded-md transition-colors duration-100",
+									active && "bg-gray-200"
+								)}
+							>
+								New Post
 							</WrappedLink>
 						)}
 					</Menu.Item>
 					<Menu.Item>
 						{({ active }) => (
-							<UserLink username={user!.username}>
-								<a
-									className={classNames(
-										"flex gap-1 items-center text-left px-2 py-1 rounded-md transition-colors duration-100",
-										active && "bg-gray-200"
-									)}
-								>
-									<UserIcon className="inline w-5 h-5" />
-									<span>My profile</span>
-								</a>
+							<UserLink
+								username={user!.username}
+								className={classNames(
+									"flex gap-1 items-center text-left px-2 py-1 rounded-md transition-colors duration-100",
+									active && "bg-gray-200"
+								)}
+							>
+								<UserIcon className="inline w-5 h-5" />
+								<span>My profile</span>
 							</UserLink>
 						)}
 					</Menu.Item>

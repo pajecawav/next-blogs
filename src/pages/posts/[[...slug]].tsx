@@ -32,10 +32,11 @@ const PostPage: React.FC<Props> = ({ post }) => {
 					<div className="flex gap-4 items-center mb-8">
 						<span>
 							by{" "}
-							<UserLink username={post.author.username}>
-								<a className="font-bold hover:opacity-50">
-									{post.author.username}
-								</a>
+							<UserLink
+								username={post.author.username}
+								className="font-bold hover:opacity-50"
+							>
+								{post.author.username}
 							</UserLink>
 						</span>
 						<span

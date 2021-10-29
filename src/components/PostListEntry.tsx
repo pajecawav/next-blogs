@@ -23,10 +23,11 @@ export const PostListEntry: React.FC<PostListEntryProps> = ({
 				</Postlink>
 			</span>
 			{showAuthor && (
-				<UserLink username={post.author.username}>
-					<a className="text-sm text-gray-500 hover:opacity-50">
-						{post.author.username}
-					</a>
+				<UserLink
+					username={post.author.username}
+					className="text-sm text-gray-500 hover:opacity-50"
+				>
+					{post.author.username}
 				</UserLink>
 			)}
 			<span
