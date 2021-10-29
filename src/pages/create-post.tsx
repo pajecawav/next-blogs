@@ -1,10 +1,8 @@
-import { Button } from "@/components/Button";
-import { Input } from "@/components/Input";
-import { Textarea } from "@/components/Textarea";
+import { EditPostForm } from "@/components/EditPostForm";
+import { UnauthenticatedError } from "@/components/UnauthenticatedError";
 import { useUser } from "@/hooks/useUser";
-import { CreatePost, createPostSchema, PostResponse } from "@/lib/schemas/post";
+import { CreatePost, PostResponse } from "@/lib/schemas/post";
 import axios from "axios";
-import { Form, Formik } from "formik";
 import { NextPage } from "next";
 import { useRouter } from "next/router";
 import React from "react";
@@ -27,56 +25,17 @@ const CreatePostPage: NextPage = () => {
 		}
 	);
 
-	return (
+	return !isLoggedIn ? (
+		<UnauthenticatedError />
+	) : (
 		<div className="bg-white pt-3 pb-5 px-5 rounded shadow-sm">
-			<Formik
+			<EditPostForm
 				initialValues={{ title: "", body: "" }}
-				onSubmit={(values, { setSubmitting }) => {
-					if (isLoggedIn) {
-						createPost(values);
-					} else {
-						setSubmitting(false);
-					}
+				onSubmit={values => {
+					createPost(values);
 				}}
-				validationSchema={createPostSchema}
-				validateOnBlur={false}
-				validateOnMount
-			>
-				{({ isSubmitting, isValid }) => (
-					<Form className="flex flex-col gap-4">
-						<Input
-							className="text-3xl"
-							flat
-							name="title"
-							type="text"
-							placeholder="Title"
-						/>
-
-						<Textarea
-							name="body"
-							minRows={6}
-							flat
-							placeholder="Write here"
-						/>
-
-						<div>
-							{isLoggedIn ? (
-								<Button
-									type="submit"
-									disabled={!isValid || isSubmitting}
-									isProcessing={isSubmitting}
-								>
-									Submit
-								</Button>
-							) : (
-								<div className="text-gray-400">
-									Please log in to create posts
-								</div>
-							)}
-						</div>
-					</Form>
-				)}
-			</Formik>
+				submitText="Submit"
+			/>
 		</div>
 	);
 };
