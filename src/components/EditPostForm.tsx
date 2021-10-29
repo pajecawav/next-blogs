@@ -1,24 +1,27 @@
 import { Button } from "@/components/Button";
 import { Input } from "@/components/Input";
 import { Textarea } from "@/components/Textarea";
-import { createPostSchema } from "@/lib/schemas/post";
-import { Form, Formik, FormikHelpers, FormikValues } from "formik";
-import React from "react";
+import { CreatePost, createPostSchema } from "@/lib/schemas/post";
+import { Form, Formik, FormikHelpers } from "formik";
+import React, { useState } from "react";
+import { Post } from "./Post";
 
-type Props<Values extends FormikValues = FormikValues> = {
-	initialValues: Values;
+type Props = {
+	initialValues: CreatePost;
 	onSubmit: (
-		values: Values,
-		formikHelpers: FormikHelpers<Values>
+		values: CreatePost,
+		formikHelpers: FormikHelpers<CreatePost>
 	) => void | Promise<any>;
 	submitText: string;
 };
 
-export const EditPostForm = <V,>({
+export const EditPostForm: React.FC<Props> = ({
 	initialValues,
 	onSubmit,
 	submitText,
-}: Props<V>) => {
+}) => {
+	const [preview, setPreview] = useState(false);
+
 	return (
 		<Formik
 			initialValues={initialValues}
@@ -27,25 +30,39 @@ export const EditPostForm = <V,>({
 			validateOnBlur={false}
 			validateOnMount
 		>
-			{({ isSubmitting, isValid }) => (
+			{({ isSubmitting, isValid, values }) => (
 				<Form className="flex flex-col gap-4">
-					<Input
-						className="text-3xl"
-						flat
-						name="title"
-						type="text"
-						placeholder="Title"
-					/>
+					{preview ? (
+						<Post>{values.body}</Post>
+					) : (
+						<>
+							<Input
+								className="text-3xl"
+								flat
+								name="title"
+								type="text"
+								placeholder="Title"
+							/>
 
-					<Textarea
-						name="body"
-						minRows={6}
-						flat
-						placeholder="Write here"
-					/>
+							<Textarea
+								name="body"
+								minRows={6}
+								flat
+								placeholder="Write here"
+							/>
+						</>
+					)}
 
-					<div>
+					<div className="flex gap-4">
 						<Button
+							type="button"
+							onClick={() => setPreview(!preview)}
+						>
+							{preview ? "Edit" : "Preview"}
+						</Button>
+
+						<Button
+							className="ml-auto"
 							type="submit"
 							disabled={!isValid || isSubmitting}
 							isProcessing={isSubmitting}
