@@ -1,8 +1,10 @@
 import { PostsList } from "@/components/PostsList";
 import { SectionTitle } from "@/components/SectionTitle";
+import { useUser } from "@/hooks/useUser";
 import { formatDate } from "@/lib/dates";
 import { UserResponse, userResponseSelect } from "@/lib/schemas/user";
 import { GetServerSideProps, NextPage } from "next";
+import Link from "next/link";
 import db from "prisma/client";
 import React from "react";
 import * as yup from "yup";
@@ -12,6 +14,10 @@ type Props = {
 };
 
 const UserPage: NextPage<Props> = ({ user }) => {
+	const { user: currentUser } = useUser();
+
+	const isMe = user.id === currentUser?.id;
+
 	return (
 		<div>
 			<div className="mb-10">
@@ -21,7 +27,16 @@ const UserPage: NextPage<Props> = ({ user }) => {
 				</div>
 			</div>
 			<div>
-				<SectionTitle>Posts</SectionTitle>
+				<div className="flex">
+					<SectionTitle>Posts</SectionTitle>
+					{isMe && (
+						<Link href="/create-post">
+							<a className="ml-auto mb-1 self-end text-gray-500 transition-opacity duration-75 hover:opacity-50">
+								New Post
+							</a>
+						</Link>
+					)}
+				</div>
 				<PostsList
 					query={{ authorId: user.id, createdAt: "desc" }}
 					showAuthor={false}
