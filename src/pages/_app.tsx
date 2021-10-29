@@ -1,8 +1,10 @@
 import { Layout } from "@/components/Layout";
 import { AuthProvider } from "@/contexts/AuthContext";
+import { NavigationProgressBar } from "@/NavigationProgressBar";
 import "@/styles/globals.css";
 import { AppProps } from "next/app";
 import Head from "next/head";
+import "nprogress/nprogress.css";
 import React from "react";
 import { QueryClient, QueryClientProvider } from "react-query";
 
@@ -24,6 +26,7 @@ const MyApp: React.FC<AppProps> = ({ Component, pageProps }) => {
 					<title>Blogs</title>
 				</Head>
 				<Layout>
+					<NavigationProgressBar />
 					<Component {...pageProps} />
 				</Layout>
 			</AuthProvider>
