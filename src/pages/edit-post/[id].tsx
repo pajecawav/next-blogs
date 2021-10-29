@@ -12,6 +12,7 @@ import { useRouter } from "next/router";
 import React from "react";
 import { useMutation } from "react-query";
 import * as yup from "yup";
+import db from "prisma/client";
 
 type Props = {
 	error?: string;
