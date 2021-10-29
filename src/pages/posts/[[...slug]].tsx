@@ -17,9 +17,9 @@ const PostPage: React.FC<Props> = ({ post }) => {
 			<Head>
 				<title>{post.title}</title>
 			</Head>
-			<div className="pt-2 pb-4 px-6 bg-white shadow-sm">
+			<div className="pt-4 pb-4 px-6 bg-white shadow-sm">
 				<h1 className="text-4xl mb-3">{post.title}</h1>
-				<article className="bg-white shadow-sm prose-sm">
+				<article className="bg-white prose-sm">
 					<div className="flex gap-5 items-center mb-8">
 						<span>
 							by{" "}

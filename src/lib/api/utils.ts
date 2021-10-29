@@ -1,11 +1,12 @@
 import { User } from "@prisma/client";
+import { Session } from "next-iron-session";
 import db from "prisma/client";
-import { NextIronRequest, SessionUser } from "../session";
+import { SessionUser } from "../session";
 
 export const getCurrentUser = async (
-	req: NextIronRequest
+	session: Session
 ): Promise<User | null> => {
-	const sessionUser = req.session.get<SessionUser>("user");
+	const sessionUser = session.get<SessionUser>("user");
 
 	if (!sessionUser) {
 		return null;

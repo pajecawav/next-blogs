@@ -3,6 +3,8 @@ import {
 	createPostSchema,
 	PostsQuery,
 	postsQuerySchema,
+	UpdatePost,
+	updatePostSchema,
 } from "@/lib/schemas/post";
 import { userResponseSelect } from "@/lib/schemas/user";
 import { AuthorizedRequest, withUser } from "@/lib/session";
@@ -15,6 +17,8 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 		await handleGET(req, res);
 	} else if (req.method === "POST") {
 		await handlePOST(req, res);
+	} else if (req.method === "PATCH") {
+		await handlePATCH(req, res);
 	} else {
 		res.status(400).send(`Unsupported method ${req.method}`);
 	}
@@ -68,6 +72,41 @@ const handlePOST = withUser(
 		});
 
 		res.status(200).json(post);
+	}
+);
+
+const handlePATCH = withUser(
+	async (req: AuthorizedRequest, res: NextApiResponse) => {
+		let data: UpdatePost;
+		try {
+			data = await updatePostSchema.validate(req.body);
+		} catch (e) {
+			console.log(e);
+			return res
+				.status(400)
+				.json({ errors: (e as ValidationError).errors });
+		}
+
+		const existingPost = await db.post.findFirst({
+			where: { id: data.id },
+		});
+
+		if (!existingPost) {
+			return res
+				.status(404)
+				.json({ error: "Post with this id doesn't exist" });
+		} else if (existingPost.authorId !== req.user.id) {
+			return res
+				.status(403)
+				.json({ error: "Not authorized to edit this post" });
+		}
+
+		await db.post.update({
+			where: { id: data.id },
+			data,
+		});
+
+		res.status(200).end();
 	}
 );
 

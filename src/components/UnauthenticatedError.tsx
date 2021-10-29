@@ -1,9 +1,6 @@
 import React from "react";
+import { PageError } from "./PageError";
 
 export const UnauthenticatedError: React.FC = () => {
-	return (
-		<div className="text-center text-3xl text-red-500">
-			Must be logged in to view this page
-		</div>
-	);
+	return <PageError>Must be logged in to view this page</PageError>;
 };

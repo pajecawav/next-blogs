@@ -41,3 +41,11 @@ export const createPostSchema = yup.object({}).shape({
 });
 
 export type CreatePost = yup.Asserts<typeof createPostSchema>;
+
+export const updatePostSchema = yup.object({}).shape({
+	id: yup.number().required(),
+	title: yup.string().trim(),
+	body: yup.string().trim(),
+});
+
+export type UpdatePost = yup.Asserts<typeof updatePostSchema>;
