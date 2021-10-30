@@ -1,0 +1,57 @@
+import { normalizePostSlug } from "@/lib/normalize";
+import classNames from "classnames";
+import React from "react";
+
+type Props = {
+	text: string;
+};
+
+export const TableOfContents: React.FC<Props> = ({ text }) => {
+	const headings = text.split("\n").filter(line => /^#{1,6} /.test(line));
+	const items = headings.map(line => {
+		const [prefix, heading] = /(.*?) (.*)/.exec(line)!.slice(1);
+		return [prefix.length, heading] as [number, string];
+	});
+
+	let index = 0;
+	const parseHeadings = (depth: number = 0): any => {
+		let values = [];
+		while (index < items.length) {
+			const [level, data] = items[index];
+			if (level < depth) {
+				break;
+			} else if (level === depth) {
+				values.push(data);
+				index++;
+			} else {
+				values.push(parseHeadings(depth + 1));
+			}
+		}
+		return values;
+	};
+
+	const renderList = (list: (string | string[])[], level: number = 0) => {
+		return list.map((value, index) =>
+			typeof value === "string" ? (
+				<li key={index}>
+					<a
+						className="text-gray-500 hover:text-gray-900"
+						href={`#${normalizePostSlug(value)}`}
+					>
+						{value}
+					</a>
+				</li>
+			) : (
+				<ul
+					className={classNames("space-y-0.5", level > 0 && "ml-4")}
+					key={index}
+				>
+					{renderList(value, level + 1)}
+				</ul>
+			)
+		);
+	};
+	const root = renderList(parseHeadings());
+
+	return <>{root}</>;
+};

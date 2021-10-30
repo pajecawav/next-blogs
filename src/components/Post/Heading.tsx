@@ -25,12 +25,17 @@ function flatten(text: string, child: any): string {
 		: React.Children.toArray(child.props.children).reduce(flatten, text);
 }
 
+// extract heading text from children: https://github.com/remarkjs/react-markdown/issues/69
+export function extractTextFromChildren(children: React.ReactNode): string {
+	const childrenArray = React.Children.toArray(children);
+	const text = childrenArray.reduce(flatten, "");
+	return text;
+}
+
 export const Heading: React.FC<Props> = ({ level, children, ...props }) => {
 	const Component = `h${level}` as "h1";
 
-	// extract heading from children: https://github.com/remarkjs/react-markdown/issues/69
-	const childrenArray = React.Children.toArray(children);
-	const text = childrenArray.reduce(flatten, "");
+	const text = extractTextFromChildren(children);
 	const id = text ? normalizePostSlug(text) : undefined;
 
 	return (

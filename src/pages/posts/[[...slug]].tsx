@@ -1,4 +1,5 @@
 import { Post } from "@/components/Post";
+import { TableOfContents } from "@/components/Post/TableOfContents";
 import { UserLink } from "@/components/UserLink";
 import { useUser } from "@/hooks/useUser";
 import { formatDate } from "@/lib/dates";
@@ -26,9 +27,9 @@ const PostPage: React.FC<Props> = ({ post }) => {
 			<Head>
 				<title>{post.title}</title>
 			</Head>
-			<div className="pt-4 pb-4 px-6 bg-white shadow-sm">
+			<div className="relative pt-4 pb-4 px-6 bg-white shadow-sm">
 				<h1 className="text-4xl mb-3">{post.title}</h1>
-				<article className="bg-white prose-sm">
+				<article className="bg-white">
 					<div className="flex gap-4 items-center mb-8">
 						<span>
 							by{" "}
@@ -83,6 +84,11 @@ const PostPage: React.FC<Props> = ({ post }) => {
 					</div>
 					<Post>{post.body}</Post>
 				</article>
+				<div className="absolute h-full top-0 -left-4 -translate-x-full w-80">
+					<div className="px-4 py-2 bg-white rounded-md sticky top-20">
+						<TableOfContents text={post.body} />
+					</div>
+				</div>
 			</div>
 		</>
 	);

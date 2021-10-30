@@ -14,7 +14,7 @@ export const Post: React.FC<Props> = ({ children }) => {
 		if (id) {
 			document
 				.getElementById(id.slice(1))
-				?.scrollIntoView({ behavior: "smooth", block: "center" });
+				?.scrollIntoView({ behavior: "smooth" });
 		}
 	}, []);
 
