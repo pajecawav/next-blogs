@@ -3,10 +3,11 @@ import classNames from "classnames";
 import React from "react";
 
 type Props = {
+	title: string;
 	text: string;
 };
 
-export const TableOfContents: React.FC<Props> = ({ text }) => {
+export const TableOfContents: React.FC<Props> = ({ title, text }) => {
 	const headings = text.split("\n").filter(line => /^#{1,6} /.test(line));
 	const items = headings.map(line => {
 		const [prefix, heading] = /(.*?) (.*)/.exec(line)!.slice(1);
@@ -53,5 +54,13 @@ export const TableOfContents: React.FC<Props> = ({ text }) => {
 	};
 	const root = renderList(parseHeadings());
 
-	return <>{root}</>;
+	return (
+		<div>
+			<a className="text-gray-500 hover:text-gray-900" href="#">
+				{title}
+			</a>
+			<hr className="my-2" />
+			<div>{root}</div>
+		</div>
+	);
 };

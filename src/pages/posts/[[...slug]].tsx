@@ -86,7 +86,7 @@ const PostPage: React.FC<Props> = ({ post }) => {
 				</article>
 				<div className="absolute h-full top-0 -left-4 -translate-x-full w-80">
 					<div className="px-4 py-2 bg-white rounded-md sticky top-20">
-						<TableOfContents text={post.body} />
+						<TableOfContents title={post.title} text={post.body} />
 					</div>
 				</div>
 			</div>
