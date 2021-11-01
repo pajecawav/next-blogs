@@ -9,10 +9,10 @@ import { GetServersidePropsIronContext, withSession } from "@/lib/session";
 import axios from "axios";
 import { NextPage } from "next";
 import { useRouter } from "next/router";
+import db from "prisma/client";
 import React from "react";
 import { useMutation } from "react-query";
 import * as yup from "yup";
-import db from "prisma/client";
 
 type Props = {
 	error?: string;
@@ -46,7 +46,7 @@ const EditPostPage: NextPage<Props> = ({ error, post }) => {
 	}
 
 	return (
-		<div className="bg-white pt-3 pb-5 px-5 rounded shadow-sm">
+		<div className="w-full max-w-3xl mx-auto bg-white pt-3 pb-5 px-5 rounded shadow-sm">
 			<EditPostForm
 				initialValues={{
 					title: post.title,

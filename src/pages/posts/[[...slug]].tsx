@@ -27,68 +27,71 @@ const PostPage: React.FC<Props> = ({ post }) => {
 			<Head>
 				<title>{post.title}</title>
 			</Head>
-			<div className="relative pt-4 pb-4 px-6 bg-white shadow-sm">
-				<h1 className="text-4xl mb-3">{post.title}</h1>
-				<article className="bg-white">
-					<div className="flex gap-4 items-center mb-8">
-						<span>
-							by{" "}
-							<UserLink
-								username={post.author.username}
-								className="font-bold hover:opacity-50"
-							>
-								{post.author.username}
-							</UserLink>
-						</span>
-						<span
-							className="text-gray-400 text-sm"
-							title={`Created at ${post.createdAt.toLocaleString()}`}
-						>
-							{formatDate(post.createdAt)}
-						</span>
-						{isMyPost && (
-							<Menu as="div" className="relative">
-								<Menu.Button className="align-middle">
-									<DotsHorizontalIcon className="w-5 h-5 text-gray-400" />
-								</Menu.Button>
-								<Transition
-									as={Fragment}
-									enter="transition ease-out duration-50"
-									enterFrom="opacity-0 translate-y-0.5"
-									leave="transition ease-in duration-50"
-									leaveTo="opacity-0 translate-y-0.5"
-								>
-									<Menu.Items className="absolute right-0 origin-top-right flex flex-col shadow-lg z-10 py-1 px-2 w-40 border bg-white rounded-md">
-										<Menu.Item>
-											{({ active }) => (
-												<Link
-													href={`/edit-post/${post.id}`}
-												>
-													<a
-														className={classNames(
-															"flex gap-2 items-center text-left px-2 py-1 rounded-md hover:bg-gray-200",
-															active &&
-																"bg-gray-200"
-														)}
-													>
-														<PencilIcon className="inline w-4 h-4" />
-														<span>Edit</span>
-													</a>
-												</Link>
-											)}
-										</Menu.Item>
-									</Menu.Items>
-								</Transition>
-							</Menu>
-						)}
-					</div>
-					<Post>{post.body}</Post>
-				</article>
-				<div className="absolute h-full top-0 -left-4 -translate-x-full w-80">
+			<div className="w-full max-w-[96rem] mx-auto flex gap-2 px-2">
+				<div className="w-72 flex-shrink-0 hidden lg:block">
 					<div className="px-4 py-2 bg-white rounded-md sticky top-20">
 						<TableOfContents title={post.title} text={post.body} />
 					</div>
 				</div>
+				<div className="max-w-60 flex-grow flex-shrink pt-4 pb-4 px-6 bg-white shadow-sm rounded-md">
+					<h1 className="text-4xl mb-3">{post.title}</h1>
+					<article>
+						<div className="flex gap-4 items-center mb-8">
+							<span>
+								by{" "}
+								<UserLink
+									username={post.author.username}
+									className="font-bold hover:opacity-50"
+								>
+									{post.author.username}
+								</UserLink>
+							</span>
+							<span
+								className="text-gray-400 text-sm"
+								title={`Created at ${post.createdAt.toLocaleString()}`}
+							>
+								{formatDate(post.createdAt)}
+							</span>
+							{isMyPost && (
+								<Menu as="div" className="relative">
+									<Menu.Button className="align-middle">
+										<DotsHorizontalIcon className="w-5 h-5 text-gray-400" />
+									</Menu.Button>
+									<Transition
+										as={Fragment}
+										enter="transition ease-out duration-50"
+										enterFrom="opacity-0 translate-y-0.5"
+										leave="transition ease-in duration-50"
+										leaveTo="opacity-0 translate-y-0.5"
+									>
+										<Menu.Items className="absolute right-0 origin-top-right flex flex-col shadow-lg z-10 py-1 px-2 w-40 border bg-white rounded-md">
+											<Menu.Item>
+												{({ active }) => (
+													<Link
+														href={`/edit-post/${post.id}`}
+													>
+														<a
+															className={classNames(
+																"flex gap-2 items-center text-left px-2 py-1 rounded-md hover:bg-gray-200",
+																active &&
+																	"bg-gray-200"
+															)}
+														>
+															<PencilIcon className="inline w-4 h-4" />
+															<span>Edit</span>
+														</a>
+													</Link>
+												)}
+											</Menu.Item>
+										</Menu.Items>
+									</Transition>
+								</Menu>
+							)}
+						</div>
+						<Post>{post.body}</Post>
+					</article>
+				</div>
+				<div className="w-72 flex-shrink-0 hidden xl:block" />
 			</div>
 		</>
 	);

@@ -5,11 +5,9 @@ import React from "react";
 
 const Home: NextPage = () => {
 	return (
-		<main>
-			<div>
-				<SectionTitle>Latest</SectionTitle>
-				<PostsList query={{ createdAt: "desc" }} />
-			</div>
+		<main className="w-full max-w-3xl mx-auto">
+			<SectionTitle>Latest</SectionTitle>
+			<PostsList query={{ createdAt: "desc" }} />
 		</main>
 	);
 };

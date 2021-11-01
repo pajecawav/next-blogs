@@ -41,7 +41,7 @@ export const Heading: React.FC<Props> = ({ level, children, ...props }) => {
 	return (
 		<Component
 			id={id}
-			className={classNames("w-max group", levelClassNames[level])}
+			className={classNames("group", levelClassNames[level])}
 			{...props}
 		>
 			<span className="mr-3">{children}</span>
