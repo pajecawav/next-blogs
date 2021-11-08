@@ -56,7 +56,7 @@ export const EditPostForm: React.FC<Props> = ({
 					<div className="flex gap-4">
 						<Button
 							type="button"
-							secondary={true}
+							color="outlined"
 							onClick={() => setPreview(!preview)}
 						>
 							{preview ? "Edit" : "Preview"}

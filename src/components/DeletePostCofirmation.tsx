@@ -80,13 +80,14 @@ export const DeletePostConfirmation: FC<Props> = ({
 							<div className="mt-4 flex gap-2 justify-end">
 								<Button
 									type="button"
-									secondary={true}
+									color="outlined"
 									onClick={onClose}
 								>
 									Cancel
 								</Button>
 								<Button
 									type="button"
+									color="danger"
 									onClick={() => deletePost()}
 									isProcessing={isLoading}
 								>
