@@ -19,7 +19,7 @@ const UserPage: NextPage<Props> = ({ user }) => {
 	const isMe = user.id === currentUser?.id;
 
 	return (
-		<div>
+		<div className="w-full max-w-3xl mx-auto">
 			<div className="mb-10">
 				<h1 className="text-4xl mb-3">{user.username}</h1>
 				<div className="text-gray-500">
