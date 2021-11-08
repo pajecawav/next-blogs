@@ -1,17 +1,16 @@
 import { Post } from "@/components/Post";
+import { PostActions } from "@/components/Post/PostActions";
 import { TableOfContents } from "@/components/Post/TableOfContents";
 import { UserLink } from "@/components/UserLink";
 import { useUser } from "@/hooks/useUser";
 import { formatDate } from "@/lib/dates";
 import { PostWithUserResponse } from "@/lib/schemas/post";
-import { Menu, Transition } from "@headlessui/react";
-import { DotsHorizontalIcon, PencilIcon } from "@heroicons/react/outline";
-import classNames from "classnames";
+import { Menu } from "@headlessui/react";
+import { DotsHorizontalIcon } from "@heroicons/react/outline";
 import { GetServerSideProps } from "next";
 import Head from "next/head";
-import Link from "next/link";
 import db from "prisma/client";
-import React, { Fragment } from "react";
+import React from "react";
 
 type Props = {
 	post: PostWithUserResponse;
@@ -57,34 +56,7 @@ const PostPage: React.FC<Props> = ({ post }) => {
 									<Menu.Button className="align-middle">
 										<DotsHorizontalIcon className="w-5 h-5 text-gray-400" />
 									</Menu.Button>
-									<Transition
-										as={Fragment}
-										enter="transition ease-out duration-50"
-										enterFrom="opacity-0 translate-y-0.5"
-										leave="transition ease-in duration-50"
-										leaveTo="opacity-0 translate-y-0.5"
-									>
-										<Menu.Items className="absolute right-0 origin-top-right flex flex-col shadow-lg z-10 py-1 px-2 w-40 border bg-white rounded-md">
-											<Menu.Item>
-												{({ active }) => (
-													<Link
-														href={`/edit-post/${post.id}`}
-													>
-														<a
-															className={classNames(
-																"flex gap-2 items-center text-left px-2 py-1 rounded-md hover:bg-gray-200",
-																active &&
-																	"bg-gray-200"
-															)}
-														>
-															<PencilIcon className="inline w-4 h-4" />
-															<span>Edit</span>
-														</a>
-													</Link>
-												)}
-											</Menu.Item>
-										</Menu.Items>
-									</Transition>
+									<PostActions post={post} />
 								</Menu>
 							)}
 						</div>
