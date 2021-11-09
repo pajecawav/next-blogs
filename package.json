@@ -7,7 +7,8 @@
 		"build": "next build",
 		"start": "next start",
 		"lint": "next lint",
-		"lint:types": "tsc --noEmit"
+		"lint:types": "tsc --noEmit",
+		"vercel-build": "prisma generate && prisma db push && next build"
 	},
 	"prisma": {
 		"seed": "ts-node --compiler-options {\"module\":\"CommonJS\"} prisma/seed.ts"
