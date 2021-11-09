@@ -1,6 +1,6 @@
 import { Layout } from "@/components/Layout";
+import { NavigationProgressBar } from "@/components/NavigationProgressBar";
 import { AuthProvider } from "@/contexts/AuthContext";
-import { NavigationProgressBar } from "@/NavigationProgressBar";
 import "@/styles/globals.css";
 import { AppProps } from "next/app";
 import Head from "next/head";

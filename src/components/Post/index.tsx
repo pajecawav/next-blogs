@@ -48,7 +48,6 @@ export const Post: React.FC<Props> = ({ children }) => {
 				li: ({ node, children, index, ordered, ...props }) => (
 					<li
 						className={classNames(
-							"list-inside",
 							ordered ? "list-decimal" : "list-disc"
 						)}
 						{...props}
@@ -56,10 +55,10 @@ export const Post: React.FC<Props> = ({ children }) => {
 						{children}
 					</li>
 				),
-				ol: ({ node, depth, ...props }) => (
+				ol: ({ node, depth, ordered, ...props }) => (
 					<ol className="ml-5 list-inside list-decimal" {...props} />
 				),
-				ul: ({ node, depth, ...props }) => (
+				ul: ({ node, depth, ordered, ...props }) => (
 					<ul className="ml-5 list-inside list-disc" {...props} />
 				),
 				p: ({ node, ...props }) => <p {...props} className="my-4" />,
