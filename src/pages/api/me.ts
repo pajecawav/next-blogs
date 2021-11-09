@@ -4,6 +4,6 @@ import { NextApiResponse } from "next";
 
 export default withUser(
 	async (req: AuthorizedRequest, res: NextApiResponse) => {
-		res.json(userResponseSchema.cast(req.user));
+		res.json(userResponseSchema.cast(req.user, { stripUnknown: true }));
 	}
 );

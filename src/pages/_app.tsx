@@ -7,13 +7,13 @@ import Head from "next/head";
 import "nprogress/nprogress.css";
 import React from "react";
 import { QueryClient, QueryClientProvider } from "react-query";
+import { ReactQueryDevtools } from "react-query/devtools";
 
 const queryClient = new QueryClient({
 	defaultOptions: {
 		queries: {
 			retry: false,
 			refetchOnWindowFocus: false,
-			refetchOnMount: false,
 		},
 	},
 });
@@ -30,6 +30,7 @@ const MyApp: React.FC<AppProps> = ({ Component, pageProps }) => {
 					<Component {...pageProps} />
 				</Layout>
 			</AuthProvider>
+			<ReactQueryDevtools initialIsOpen={false} />
 		</QueryClientProvider>
 	);
 };

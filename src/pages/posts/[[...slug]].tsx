@@ -1,3 +1,4 @@
+import { LoadingPlaceholder } from "@/components/LoadingPlaceholder";
 import { Post } from "@/components/Post";
 import { PostActions } from "@/components/Post/PostActions";
 import { TableOfContents } from "@/components/Post/TableOfContents";
@@ -7,19 +8,44 @@ import { formatDate } from "@/lib/dates";
 import { PostWithUserResponse } from "@/lib/schemas/post";
 import { Menu } from "@headlessui/react";
 import { DotsHorizontalIcon } from "@heroicons/react/outline";
-import { GetServerSideProps } from "next";
+import axios from "axios";
+import DefaultErrorPage from "next/error";
 import Head from "next/head";
-import db from "prisma/client";
+import { useRouter } from "next/router";
 import React from "react";
+import { useQuery } from "react-query";
 
-type Props = {
-	post: PostWithUserResponse;
-};
-
-const PostPage: React.FC<Props> = ({ post }) => {
+const PostPage: React.FC = () => {
 	const { user } = useUser();
+	const router = useRouter();
 
-	const isMyPost = post.authorId === user?.id;
+	const slug = router.query.slug as string[];
+	const postId = parseInt(slug?.[0], 10);
+
+	const {
+		data: post,
+		isLoading,
+		isError,
+	} = useQuery<PostWithUserResponse>(["post", postId], async () =>
+		axios
+			.get<PostWithUserResponse>(`/api/posts/${postId}`)
+			.then(response => response.data)
+	);
+
+	if (isError) {
+		// TODO: extract status code?
+		return <DefaultErrorPage statusCode={404} />;
+	}
+
+	if (isLoading || !post) {
+		return (
+			<div className="w-screen h-40 grid place-items-center">
+				<LoadingPlaceholder className="h-10 w-10" />
+			</div>
+		);
+	}
+
+	const isMyPost = post && user && post.authorId === user.id;
 
 	return (
 		<>
@@ -67,35 +93,6 @@ const PostPage: React.FC<Props> = ({ post }) => {
 			</div>
 		</>
 	);
-};
-
-export const getServerSideProps: GetServerSideProps = async context => {
-	// allow urls in the form of '/:id/:post-title'
-	const slug = context.params!.slug as string[] | undefined;
-	if (!slug || slug.length > 2) {
-		return { notFound: true };
-	}
-
-	const id = parseInt(slug[0], 10);
-
-	if (Number.isNaN(id)) {
-		return { notFound: true };
-	}
-
-	const post = await db.post.findUnique({
-		where: { id },
-		include: { author: true },
-	});
-
-	if (!post) {
-		return { notFound: true };
-	}
-
-	return {
-		props: {
-			post,
-		},
-	};
 };
 
 export default PostPage;

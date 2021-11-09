@@ -1,7 +1,7 @@
 import { useLogout } from "@/hooks/useLogout";
 import { useUser } from "@/hooks/useUser";
 import { Menu, Transition } from "@headlessui/react";
-import { LogoutIcon, UserIcon } from "@heroicons/react/outline";
+import { LogoutIcon, PlusIcon, UserIcon } from "@heroicons/react/outline";
 import classNames from "classnames";
 import React, { Fragment } from "react";
 import { UserLink } from "./UserLink";
@@ -33,7 +33,8 @@ export const AuthenticatedDropdownMenu: React.FC = () => {
 									active && "bg-gray-100"
 								)}
 							>
-								New Post
+								<PlusIcon className="inline w-5 h-5" />
+								<span>New Post</span>
 							</WrappedLink>
 						)}
 					</Menu.Item>

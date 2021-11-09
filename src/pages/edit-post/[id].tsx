@@ -11,7 +11,7 @@ import { NextPage } from "next";
 import { useRouter } from "next/router";
 import db from "prisma/client";
 import React from "react";
-import { useMutation } from "react-query";
+import { useMutation, useQueryClient } from "react-query";
 import * as yup from "yup";
 
 type Props = {
@@ -22,6 +22,7 @@ type Props = {
 const EditPostPage: NextPage<Props> = ({ error, post }) => {
 	const { isLoggedIn } = useUser();
 	const router = useRouter();
+	const queryClient = useQueryClient();
 
 	const { mutate: editPost } = useMutation(
 		(data: CreatePost) => {
@@ -31,7 +32,8 @@ const EditPostPage: NextPage<Props> = ({ error, post }) => {
 			});
 		},
 		{
-			onSuccess: () => {
+			onSuccess: async () => {
+				await queryClient.invalidateQueries(["post", post.id]);
 				router.replace(`/posts/${post.id}`);
 			},
 		}
