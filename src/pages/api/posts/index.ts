@@ -1,3 +1,4 @@
+import { withRouting } from "@/lib/routing";
 import {
 	CreatePost,
 	createPostSchema,
@@ -12,17 +13,11 @@ import { NextApiRequest, NextApiResponse } from "next";
 import db from "prisma/client";
 import { ValidationError } from "yup";
 
-const handler = async (req: NextApiRequest, res: NextApiResponse) => {
-	if (req.method === "GET") {
-		await handleGET(req, res);
-	} else if (req.method === "POST") {
-		await handlePOST(req, res);
-	} else if (req.method === "PATCH") {
-		await handlePATCH(req, res);
-	} else {
-		res.status(400).send(`Unsupported method ${req.method}`);
-	}
-};
+export default withRouting({
+	GET: handleGET,
+	POST: withUser(handlePOST),
+	PATCH: withUser(handlePATCH),
+});
 
 async function handleGET(req: NextApiRequest, res: NextApiResponse) {
 	let query: PostsQuery;
@@ -55,59 +50,49 @@ async function handleGET(req: NextApiRequest, res: NextApiResponse) {
 	});
 }
 
-const handlePOST = withUser(
-	async (req: AuthorizedRequest, res: NextApiResponse) => {
-		let data: CreatePost;
-		try {
-			data = await createPostSchema.validate(req.body);
-		} catch (e) {
-			console.log(e);
-			return res
-				.status(400)
-				.json({ errors: (e as ValidationError).errors });
-		}
-
-		const post = await db.post.create({
-			data: { ...data, authorId: req.user.id },
-		});
-
-		res.status(200).json(post);
+async function handlePOST(req: AuthorizedRequest, res: NextApiResponse) {
+	let data: CreatePost;
+	try {
+		data = await createPostSchema.validate(req.body);
+	} catch (e) {
+		console.log(e);
+		return res.status(400).json({ errors: (e as ValidationError).errors });
 	}
-);
 
-const handlePATCH = withUser(
-	async (req: AuthorizedRequest, res: NextApiResponse) => {
-		let data: UpdatePost;
-		try {
-			data = await updatePostSchema.validate(req.body);
-		} catch (e) {
-			console.log(e);
-			return res
-				.status(400)
-				.json({ errors: (e as ValidationError).errors });
-		}
+	const post = await db.post.create({
+		data: { ...data, authorId: req.user.id },
+	});
 
-		const existingPost = await db.post.findFirst({
-			where: { id: data.id },
-		});
+	res.status(200).json(post);
+}
 
-		if (!existingPost) {
-			return res
-				.status(404)
-				.json({ error: "Post with this id doesn't exist" });
-		} else if (existingPost.authorId !== req.user.id) {
-			return res
-				.status(403)
-				.json({ error: "Not authorized to edit this post" });
-		}
-
-		await db.post.update({
-			where: { id: data.id },
-			data,
-		});
-
-		res.status(200).end();
+async function handlePATCH(req: AuthorizedRequest, res: NextApiResponse) {
+	let data: UpdatePost;
+	try {
+		data = await updatePostSchema.validate(req.body);
+	} catch (e) {
+		console.log(e);
+		return res.status(400).json({ errors: (e as ValidationError).errors });
 	}
-);
 
-export default handler;
+	const existingPost = await db.post.findFirst({
+		where: { id: data.id },
+	});
+
+	if (!existingPost) {
+		return res
+			.status(404)
+			.json({ error: "Post with this id doesn't exist" });
+	} else if (existingPost.authorId !== req.user.id) {
+		return res
+			.status(403)
+			.json({ error: "Not authorized to edit this post" });
+	}
+
+	await db.post.update({
+		where: { id: data.id },
+		data,
+	});
+
+	res.status(200).end();
+}

@@ -1,18 +1,10 @@
+import { withRouting } from "@/lib/routing";
 import { userResponseSelect } from "@/lib/schemas/user";
 import { NextApiRequest, NextApiResponse } from "next";
 import db from "prisma/client";
 import * as yup from "yup";
 
-export default async function handler(
-	req: NextApiRequest,
-	res: NextApiResponse
-) {
-	if (req.method === "GET") {
-		await handleGET(req, res);
-	} else {
-		res.status(400).send(`Unsupported method ${req.method}`);
-	}
-}
+export default withRouting({ GET: handleGET });
 
 const paramsSchema = yup.object({ id: yup.number().required() });
 

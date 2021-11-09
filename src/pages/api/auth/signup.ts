@@ -1,3 +1,4 @@
+import { withRouting } from "@/lib/routing";
 import { signupSchema } from "@/lib/schemas/auth";
 import { userResponseSelect } from "@/lib/schemas/user";
 import { getPasswordHash } from "@/lib/security";
@@ -11,15 +12,7 @@ import { NextApiResponse } from "next";
 import db from "prisma/client";
 import * as yup from "yup";
 
-export default withSession(
-	async (req: NextIronRequest, res: NextApiResponse) => {
-		if (req.method === "POST") {
-			await handlePOST(req, res);
-		} else {
-			res.status(400).send(`Unsupported method ${req.method}`);
-		}
-	}
-);
+export default withRouting({ POST: withSession(handlePOST) });
 
 async function handlePOST(req: NextIronRequest, res: NextApiResponse) {
 	let data;

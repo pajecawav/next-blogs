@@ -1,18 +1,11 @@
+import { withRouting } from "@/lib/routing";
 import { userResponseSelect } from "@/lib/schemas/user";
 import { NextIronRequest, withSession } from "@/lib/session";
 import { NextApiResponse } from "next";
 import db from "prisma/client";
 import * as yup from "yup";
 
-export default withSession(
-	async (req: NextIronRequest, res: NextApiResponse) => {
-		if (req.method === "GET") {
-			await handleGET(req, res);
-		} else {
-			res.status(400).send(`Unsupported method ${req.method}`);
-		}
-	}
-);
+export default withRouting({ GET: withSession(handleGET) });
 
 const getUsersQuerySchema = yup.object({
 	take: yup.number().positive().max(50).default(25),
