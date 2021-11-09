@@ -23,14 +23,14 @@ export const AuthenticatedDropdownMenu: React.FC = () => {
 				leave="transition ease-in duration-50"
 				leaveTo="opacity-0 translate-y-0.5"
 			>
-				<Menu.Items className="flex flex-col shadow-lg absolute z-10 mt-4 py-1 px-2 w-40 transform -translate-x-full left-full border bg-white rounded-sm">
+				<Menu.Items className="flex flex-col shadow-lg absolute z-10 mt-4 py-1 w-40 transform -translate-x-full left-full border bg-white rounded-sm">
 					<Menu.Item>
 						{({ active }) => (
 							<WrappedLink
 								href="/create-post"
 								className={classNames(
-									"flex gap-1 items-center text-left px-2 py-1 rounded-md transition-colors duration-100",
-									active && "bg-gray-200"
+									"flex gap-1 items-center text-left px-2 py-1 transition-colors duration-100",
+									active && "bg-gray-100"
 								)}
 							>
 								New Post
@@ -42,8 +42,8 @@ export const AuthenticatedDropdownMenu: React.FC = () => {
 							<UserLink
 								username={user!.username}
 								className={classNames(
-									"flex gap-1 items-center text-left px-2 py-1 rounded-md transition-colors duration-100",
-									active && "bg-gray-200"
+									"flex gap-1 items-center text-left px-2 py-1 transition-colors duration-100",
+									active && "bg-gray-100"
 								)}
 							>
 								<UserIcon className="inline w-5 h-5" />
@@ -55,8 +55,8 @@ export const AuthenticatedDropdownMenu: React.FC = () => {
 						{({ active }) => (
 							<button
 								className={classNames(
-									"flex gap-1 items-center text-left px-2 py-1 rounded-md transition-colors duration-100",
-									active && "bg-gray-200"
+									"flex gap-1 items-center text-left px-2 py-1 transition-colors duration-100",
+									active && "bg-gray-100"
 								)}
 								onClick={() => logout()}
 							>

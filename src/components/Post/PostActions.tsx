@@ -2,10 +2,10 @@ import { PostWithUserResponse } from "@/lib/schemas/post";
 import { Menu, Transition } from "@headlessui/react";
 import { PencilIcon, TrashIcon } from "@heroicons/react/outline";
 import classNames from "classnames";
-import Link from "next/link";
 import { useRouter } from "next/router";
 import { FC, Fragment, useState } from "react";
 import { DeletePostConfirmation } from "../DeletePostCofirmation";
+import { WrappedLink } from "../WrappedLink";
 
 type Props = {
 	post: PostWithUserResponse;
@@ -25,28 +25,27 @@ export const PostActions: FC<Props> = ({ post }) => {
 				leave="transition ease-in duration-50"
 				leaveTo="opacity-0 translate-y-0.5"
 			>
-				<Menu.Items className="absolute left-0 origin-top-left flex flex-col shadow-lg z-10 py-1 px-2 w-40 border bg-white rounded-md">
+				<Menu.Items className="absolute left-0 origin-top-left flex flex-col shadow-lg z-10 py-1 w-40 border bg-white rounded-md">
 					<Menu.Item>
 						{({ active }) => (
-							<Link href={`/edit-post/${post.id}`}>
-								<a
-									className={classNames(
-										"flex gap-2 items-center text-left px-2 py-1 rounded-md hover:bg-gray-200",
-										active && "bg-gray-200"
-									)}
-								>
-									<PencilIcon className="inline w-4 h-4" />
-									<span>Edit</span>
-								</a>
-							</Link>
+							<WrappedLink
+								href={`/edit-post/${post.id}`}
+								className={classNames(
+									"flex gap-2 items-center text-left px-2 py-1",
+									active && "bg-gray-100"
+								)}
+							>
+								<PencilIcon className="inline w-4 h-4" />
+								<span>Edit</span>
+							</WrappedLink>
 						)}
 					</Menu.Item>
 					<Menu.Item>
 						{({ active }) => (
 							<button
 								className={classNames(
-									"flex gap-2 items-center text-left px-2 py-1 rounded-md hover:bg-gray-200",
-									active && "bg-gray-200"
+									"flex gap-2 items-center text-left px-2 py-1",
+									active && "bg-gray-100"
 								)}
 								onClick={() => setIsDeleteOpen(true)}
 							>
