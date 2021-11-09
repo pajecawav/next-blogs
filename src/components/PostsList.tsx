@@ -9,9 +9,14 @@ import { PostListEntry } from "./PostListEntry";
 type Props = {
 	query?: PostsQuery;
 	showAuthor?: boolean;
+	showActions?: boolean;
 };
 
-export const PostsList: React.FC<Props> = ({ query, showAuthor = true }) => {
+export const PostsList: React.FC<Props> = ({
+	query,
+	showActions = false,
+	showAuthor = true,
+}) => {
 	const {
 		data: posts,
 		isLoading,
@@ -50,6 +55,7 @@ export const PostsList: React.FC<Props> = ({ query, showAuthor = true }) => {
 						{group.posts.map(post => (
 							<PostListEntry
 								post={post}
+								showActions={showActions}
 								showAuthor={showAuthor}
 								key={post.id}
 							/>

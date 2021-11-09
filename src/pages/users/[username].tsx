@@ -39,6 +39,7 @@ const UserPage: NextPage<Props> = ({ user }) => {
 				</div>
 				<PostsList
 					query={{ authorId: user.id, createdAt: "desc" }}
+					showActions={isMe}
 					showAuthor={false}
 				/>
 			</div>

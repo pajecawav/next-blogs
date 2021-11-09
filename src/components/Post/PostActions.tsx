@@ -9,9 +9,10 @@ import { WrappedLink } from "../WrappedLink";
 
 type Props = {
 	post: PostWithUserResponse;
+	position?: "left" | "right";
 };
 
-export const PostActions: FC<Props> = ({ post }) => {
+export const PostActions: FC<Props> = ({ post, position = "left" }) => {
 	const [isDeleteOpen, setIsDeleteOpen] = useState(false);
 
 	const router = useRouter();
@@ -25,7 +26,12 @@ export const PostActions: FC<Props> = ({ post }) => {
 				leave="transition ease-in duration-50"
 				leaveTo="opacity-0 translate-y-0.5"
 			>
-				<Menu.Items className="absolute left-0 origin-top-left flex flex-col shadow-lg z-10 py-1 w-40 border bg-white rounded-md">
+				<Menu.Items
+					className={classNames(
+						"absolute origin-top-left flex flex-col shadow-lg z-10 py-1 w-40 border bg-white rounded-md",
+						position === "left" ? "right-0" : "left-0"
+					)}
+				>
 					<Menu.Item>
 						{({ active }) => (
 							<WrappedLink
