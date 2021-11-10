@@ -9,7 +9,7 @@ type Props = {
 };
 
 const TocEntry: FC<{ title: string }> = ({ title }) => {
-	const currentHeading = useTocStore(store => store.currentHeading());
+	const currentHeading = useTocStore(store => store.currentHeading);
 
 	return (
 		<li>

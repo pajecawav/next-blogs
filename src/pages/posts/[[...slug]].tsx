@@ -6,18 +6,21 @@ import { UserLink } from "@/components/UserLink";
 import { useUser } from "@/hooks/useUser";
 import { formatDate } from "@/lib/dates";
 import { PostWithUserResponse } from "@/lib/schemas/post";
+import { useTocStore } from "@/stores/useTocStore";
 import { Menu } from "@headlessui/react";
 import { DotsHorizontalIcon } from "@heroicons/react/outline";
 import axios from "axios";
 import DefaultErrorPage from "next/error";
 import Head from "next/head";
 import { useRouter } from "next/router";
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import { useQuery } from "react-query";
 
 const PostPage: React.FC = () => {
 	const { user } = useUser();
 	const router = useRouter();
+	const postRef = useRef<HTMLDivElement>(null);
+	const setCurrentHeading = useTocStore(store => store.setCurrentHeading);
 
 	const slug = router.query.slug as string[];
 	const postId = parseInt(slug?.[0], 10);
@@ -31,6 +34,35 @@ const PostPage: React.FC = () => {
 			.get<PostWithUserResponse>(`/api/posts/${postId}`)
 			.then(response => response.data)
 	);
+
+	useEffect(() => {
+		if (post && postRef.current) {
+			const elements = postRef.current.querySelectorAll(
+				"h1, h2, h3, h4, h5, h6"
+			);
+
+			const observer = new IntersectionObserver(
+				entries => {
+					entries.forEach(entry => {
+						if (entry.isIntersecting && entry.target.id) {
+							setCurrentHeading(entry.target.id);
+						}
+					});
+				},
+				{ rootMargin: `0% 0% -80% 0%` }
+			);
+
+			elements.forEach(elem => {
+				observer.observe(elem);
+			});
+
+			return () => {
+				elements.forEach(elem => {
+					observer.unobserve(elem);
+				});
+			};
+		}
+	}, [post, postRef, setCurrentHeading]);
 
 	if (isError) {
 		// TODO: extract status code?
@@ -58,7 +90,10 @@ const PostPage: React.FC = () => {
 						<TableOfContents title={post.title} text={post.body} />
 					</div>
 				</div>
-				<div className="max-w-60 flex-grow flex-shrink pt-4 pb-4 px-6 bg-white shadow-sm rounded-md">
+				<div
+					className="max-w-60 flex-grow flex-shrink pt-4 pb-4 px-6 bg-white shadow-sm rounded-md"
+					ref={postRef}
+				>
 					<h1 className="text-4xl mb-3">{post.title}</h1>
 					<article>
 						<div className="flex gap-4 items-center mb-8">

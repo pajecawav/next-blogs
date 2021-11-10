@@ -1,9 +1,7 @@
 import { normalizePostSlug } from "@/lib/normalize";
-import { useTocStore } from "@/stores/useTocStore";
 import { LinkIcon } from "@heroicons/react/outline";
 import classNames from "classnames";
 import React, { DetailedHTMLProps, HTMLAttributes } from "react";
-import { Waypoint } from "react-waypoint";
 
 type Props = DetailedHTMLProps<
 	HTMLAttributes<HTMLHeadingElement>,
@@ -35,47 +33,23 @@ export function extractTextFromChildren(children: React.ReactNode): string {
 }
 
 export const Heading: React.FC<Props> = ({ level, children, ...props }) => {
-	const pushHeading = useTocStore(store => store.pushHeading);
-	const popHeading = useTocStore(store => store.popHeading);
-
 	const Component = `h${level}` as "h1";
 
 	const text = extractTextFromChildren(children);
 	const id = text ? normalizePostSlug(text) : undefined;
 
-	const handleEnter = (arg: Waypoint.CallbackArgs) => {
-		if (
-			id &&
-			(!arg.previousPosition || arg.previousPosition === Waypoint.below)
-		) {
-			pushHeading(id);
-		}
-	};
-
-	const handleLeave = (arg: Waypoint.CallbackArgs) => {
-		if (id && arg.currentPosition === Waypoint.below) {
-			popHeading();
-		}
-	};
-
 	return (
-		<Waypoint
-			onEnter={handleEnter}
-			onLeave={handleLeave}
-			bottomOffset="50%"
+		<Component
+			id={id}
+			className={classNames("group", levelClassNames[level])}
+			{...props}
 		>
-			<Component
-				id={id}
-				className={classNames("group", levelClassNames[level])}
-				{...props}
-			>
-				<span className="mr-3">{children}</span>
-				{id && (
-					<a href={`#${id}`} className="inline-block align-middle">
-						<LinkIcon className="w-5 h-5 opacity-0 transition-opacity duration-75 group-hover:opacity-100" />
-					</a>
-				)}
-			</Component>
-		</Waypoint>
+			<span className="mr-3">{children}</span>
+			{id && (
+				<a href={`#${id}`} className="inline-block align-middle">
+					<LinkIcon className="w-5 h-5 opacity-0 transition-opacity duration-75 group-hover:opacity-100" />
+				</a>
+			)}
+		</Component>
 	);
 };
