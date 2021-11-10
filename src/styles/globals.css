@@ -26,3 +26,8 @@ html {
 #nprogress .bar {
 	@apply bg-black;
 }
+
+.TOC-highlighted::after {
+	content: "•";
+	@apply ml-1;
+}

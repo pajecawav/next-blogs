@@ -1,13 +1,33 @@
+import { TocContext } from "@/contexts/TocContext";
 import { normalizePostSlug } from "@/lib/normalize";
 import classNames from "classnames";
-import React from "react";
+import React, { FC, useContext } from "react";
 
 type Props = {
 	title: string;
 	text: string;
 };
 
-export const TableOfContents: React.FC<Props> = ({ title, text }) => {
+const TocEntry: FC<{ title: string }> = ({ title }) => {
+	const tocContext = useContext(TocContext);
+
+	return (
+		<li>
+			<a
+				className={classNames(
+					"text-gray-500 hover:text-gray-900",
+					normalizePostSlug(title) === tocContext?.currentHeading &&
+						"text-black TOC-highlighted"
+				)}
+				href={`#${normalizePostSlug(title)}`}
+			>
+				{title}
+			</a>
+		</li>
+	);
+};
+
+export const TableOfContents: FC<Props> = ({ title, text }) => {
 	const headings = text.split("\n").filter(line => /^#{1,6} /.test(line));
 	const items = headings.map(line => {
 		const [prefix, heading] = /(.*?) (.*)/.exec(line)!.slice(1);
@@ -34,14 +54,7 @@ export const TableOfContents: React.FC<Props> = ({ title, text }) => {
 	const renderList = (list: (string | string[])[], level: number = 0) => {
 		return list.map((value, index) =>
 			typeof value === "string" ? (
-				<li key={index}>
-					<a
-						className="text-gray-500 hover:text-gray-900"
-						href={`#${normalizePostSlug(value)}`}
-					>
-						{value}
-					</a>
-				</li>
+				<TocEntry title={value} key={index} />
 			) : (
 				<ul
 					className={classNames("space-y-0.5", level > 0 && "ml-4")}

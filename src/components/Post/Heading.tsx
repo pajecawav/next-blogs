@@ -1,7 +1,9 @@
+import { TocContext } from "@/contexts/TocContext";
 import { normalizePostSlug } from "@/lib/normalize";
 import { LinkIcon } from "@heroicons/react/outline";
 import classNames from "classnames";
-import React, { DetailedHTMLProps, HTMLAttributes } from "react";
+import React, { DetailedHTMLProps, HTMLAttributes, useContext } from "react";
+import { Waypoint } from "react-waypoint";
 
 type Props = DetailedHTMLProps<
 	HTMLAttributes<HTMLHeadingElement>,
@@ -33,23 +35,46 @@ export function extractTextFromChildren(children: React.ReactNode): string {
 }
 
 export const Heading: React.FC<Props> = ({ level, children, ...props }) => {
+	const tocContext = useContext(TocContext);
+
 	const Component = `h${level}` as "h1";
 
 	const text = extractTextFromChildren(children);
 	const id = text ? normalizePostSlug(text) : undefined;
 
+	const handleEnter = (arg: Waypoint.CallbackArgs) => {
+		if (
+			id &&
+			(!arg.previousPosition || arg.previousPosition === Waypoint.below)
+		) {
+			tocContext?.pushHeading(id);
+		}
+	};
+
+	const handleLeave = (arg: Waypoint.CallbackArgs) => {
+		if (id && arg.currentPosition === Waypoint.below) {
+			tocContext?.popHeading();
+		}
+	};
+
 	return (
-		<Component
-			id={id}
-			className={classNames("group", levelClassNames[level])}
-			{...props}
+		<Waypoint
+			onEnter={handleEnter}
+			onLeave={handleLeave}
+			bottomOffset="50%"
 		>
-			<span className="mr-3">{children}</span>
-			{id && (
-				<a href={`#${id}`} className="inline-block align-middle">
-					<LinkIcon className="w-5 h-5 opacity-0 transition-opacity duration-75 group-hover:opacity-100" />
-				</a>
-			)}
-		</Component>
+			<Component
+				id={id}
+				className={classNames("group", levelClassNames[level])}
+				{...props}
+			>
+				<span className="mr-3">{children}</span>
+				{id && (
+					<a href={`#${id}`} className="inline-block align-middle">
+						<LinkIcon className="w-5 h-5 opacity-0 transition-opacity duration-75 group-hover:opacity-100" />
+					</a>
+				)}
+			</Component>
+		</Waypoint>
 	);
 };
