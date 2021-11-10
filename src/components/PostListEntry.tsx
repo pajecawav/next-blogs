@@ -21,7 +21,10 @@ export const PostListEntry: React.FC<PostListEntryProps> = ({
 	const createdAt = new Date(post.createdAt);
 
 	return (
-		<li className="relative flex justify-between px-3 py-3 gap-2 group hover:bg-gray-50">
+		<li className="relative flex justify-between items-center px-3 py-3 gap-2 group hover:bg-gray-50">
+			<span className="w-5 text-gray-500 mr-1 text-sm text-center">
+				{post.rating}
+			</span>
 			<span className="flex-grow truncate">
 				<Postlink id={post.id} title={post.title}>
 					<a className="hover:opacity-50 ">{post.title}</a>

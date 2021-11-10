@@ -2,6 +2,7 @@ import { LoadingPlaceholder } from "@/components/LoadingPlaceholder";
 import { Post } from "@/components/Post";
 import { PostActions } from "@/components/Post/PostActions";
 import { TableOfContents } from "@/components/Post/TableOfContents";
+import { UpvoteButtons } from "@/components/Post/UpvoteButtons";
 import { UserLink } from "@/components/UserLink";
 import { useUser } from "@/hooks/useUser";
 import { formatDate } from "@/lib/dates";
@@ -94,33 +95,45 @@ const PostPage: React.FC = () => {
 					className="max-w-60 flex-grow flex-shrink pt-4 pb-4 px-6 bg-white shadow-sm rounded-md"
 					ref={postRef}
 				>
-					<h1 className="text-4xl mb-3">{post.title}</h1>
-					<article>
-						<div className="flex gap-4 items-center mb-8">
-							<span>
-								by{" "}
-								<UserLink
-									username={post.author.username}
-									className="font-bold hover:opacity-50"
+					<div className="flex gap-4 mb-8">
+						<div className="flex flex-col gap-4 flex-grow">
+							<h1 className="text-4xl">{post.title}</h1>
+							<div className="space-x-2">
+								<span>
+									by{" "}
+									<UserLink
+										username={post.author.username}
+										className="font-bold hover:opacity-50"
+									>
+										{post.author.username}
+									</UserLink>
+								</span>
+								<span
+									className="text-gray-400 text-sm"
+									title={`Created at ${post.createdAt.toLocaleString()}`}
 								>
-									{post.author.username}
-								</UserLink>
-							</span>
-							<span
-								className="text-gray-400 text-sm"
-								title={`Created at ${post.createdAt.toLocaleString()}`}
-							>
-								{formatDate(post.createdAt)}
-							</span>
-							{isMyPost && (
-								<Menu as="div" className="relative">
-									<Menu.Button className="align-middle">
-										<DotsHorizontalIcon className="w-5 h-5 text-gray-400" />
-									</Menu.Button>
-									<PostActions post={post} position="right" />
-								</Menu>
-							)}
+									{formatDate(post.createdAt)}
+								</span>
+								{isMyPost && (
+									<Menu as="div" className="relative">
+										<Menu.Button className="align-middle">
+											<DotsHorizontalIcon className="w-5 h-5 text-gray-400" />
+										</Menu.Button>
+										<PostActions
+											post={post}
+											position="right"
+										/>
+									</Menu>
+								)}
+							</div>
 						</div>
+						<UpvoteButtons
+							postId={post.id}
+							rating={post.rating}
+							placedRating={post.placedRating}
+						/>
+					</div>
+					<article>
 						<Post>{post.body}</Post>
 					</article>
 				</div>

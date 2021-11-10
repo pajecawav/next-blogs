@@ -14,6 +14,7 @@ model User {
   createdAt    DateTime @default(now())
   bio          String?
   Post         Post[]
+  Rating       Rating[]
 }
 
 model Post {
@@ -24,4 +25,18 @@ model Post {
   updatedAt DateTime? @updatedAt
   author    User      @relation(fields: [authorId], references: [id])
   authorId  Int
+
+  rating  Int      @default(0)
+  ratings Rating[]
+}
+
+model Rating {
+  rating Int
+
+  post   Post @relation(fields: [postId], references: [id])
+  postId Int
+  user   User @relation(fields: [userId], references: [id])
+  userId Int
+
+  @@id([postId, userId])
 }

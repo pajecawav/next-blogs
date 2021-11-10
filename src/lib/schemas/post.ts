@@ -6,6 +6,7 @@ import { MakeUndefinesOptional, orderBySchema } from "./utils";
 export type PostResponse = Post & {
 	createdAt: string;
 	updatedAt: string | null;
+	placedRating?: -1 | 1;
 };
 
 export type PostWithUserResponse = PostResponse & { author: User };
@@ -17,6 +18,7 @@ export const postResponseSelect: ObjectToBooleans<PostResponse> = {
 	authorId: true,
 	createdAt: true,
 	updatedAt: true,
+	rating: true,
 };
 
 export const postsQuerySchema = yup.object({}).shape({
@@ -49,3 +51,9 @@ export const updatePostSchema = yup.object({}).shape({
 });
 
 export type UpdatePost = yup.Asserts<typeof updatePostSchema>;
+
+export const ratePostSchema = yup.object({}).shape({
+	rating: yup.number().oneOf([-1, 1]).required(),
+});
+
+export type RatePostSchema = yup.Asserts<typeof ratePostSchema>;

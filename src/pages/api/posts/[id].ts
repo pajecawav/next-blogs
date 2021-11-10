@@ -1,16 +1,24 @@
 import { withRouting } from "@/lib/routing";
 import { userResponseSchema } from "@/lib/schemas/user";
-import { AuthorizedRequest, withUser } from "@/lib/session";
-import { NextApiRequest, NextApiResponse } from "next";
+import {
+	AuthorizedRequest,
+	OptionallyAuthorizedRequest,
+	withOptionalUser,
+	withUser,
+} from "@/lib/session";
+import { NextApiResponse } from "next";
 import db from "prisma/client";
 import * as yup from "yup";
 
 export default withRouting({
-	GET: handleGET,
+	GET: withOptionalUser(handleGET),
 	DELETE: withUser(handleDELETE),
 });
 
-async function handleGET(req: NextApiRequest, res: NextApiResponse) {
+async function handleGET(
+	req: OptionallyAuthorizedRequest,
+	res: NextApiResponse
+) {
 	let id;
 	try {
 		id = await yup.number().required().validate(req.query.id);
@@ -32,9 +40,17 @@ async function handleGET(req: NextApiRequest, res: NextApiResponse) {
 			.json({ error: "Post with this id doesn't exist" });
 	}
 
+	let rating;
+	if (req.user) {
+		rating = await db.rating.findUnique({
+			where: { postId_userId: { postId: id, userId: req.user.id } },
+		});
+	}
+
 	res.status(200).json({
 		...post,
 		author: userResponseSchema.cast(post.author, { stripUnknown: true }),
+		...(rating && { placedRating: rating.rating }),
 	});
 }
 

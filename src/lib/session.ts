@@ -59,3 +59,29 @@ export const withUser = (handler: AuthorizedApiHandler): NextApiHandler => {
 
 	return withSession(withUserImpl);
 };
+
+export type OptionallyAuthorizedRequest = NextIronRequest & {
+	user: User;
+};
+
+export type OptionallyAuthorizedApiHandler<T = any> = (
+	req: AuthorizedRequest,
+	res: NextApiResponse<T>
+) => void | Promise<void>;
+
+export const withOptionalUser = (
+	handler: OptionallyAuthorizedApiHandler
+): NextApiHandler => {
+	const withOptionalUserImpl = async (
+		req: NextIronRequest,
+		res: NextApiResponse
+	) => {
+		const user = await getCurrentUser(req.session);
+
+		const authorizedReq = { ...req, user } as OptionallyAuthorizedRequest;
+
+		return handler(authorizedReq, res);
+	};
+
+	return withSession(withOptionalUserImpl);
+};
