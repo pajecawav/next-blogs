@@ -1,7 +1,7 @@
-import { TocContext } from "@/contexts/TocContext";
 import { normalizePostSlug } from "@/lib/normalize";
+import { useTocStore } from "@/stores/useTocStore";
 import classNames from "classnames";
-import React, { FC, useContext } from "react";
+import React, { FC } from "react";
 
 type Props = {
 	title: string;
@@ -9,14 +9,14 @@ type Props = {
 };
 
 const TocEntry: FC<{ title: string }> = ({ title }) => {
-	const tocContext = useContext(TocContext);
+	const currentHeading = useTocStore(store => store.currentHeading());
 
 	return (
 		<li>
 			<a
 				className={classNames(
 					"text-gray-500 hover:text-gray-900",
-					normalizePostSlug(title) === tocContext?.currentHeading &&
+					normalizePostSlug(title) === currentHeading &&
 						"text-black TOC-highlighted"
 				)}
 				href={`#${normalizePostSlug(title)}`}

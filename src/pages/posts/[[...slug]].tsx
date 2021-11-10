@@ -3,7 +3,6 @@ import { Post } from "@/components/Post";
 import { PostActions } from "@/components/Post/PostActions";
 import { TableOfContents } from "@/components/Post/TableOfContents";
 import { UserLink } from "@/components/UserLink";
-import { TocProvider } from "@/contexts/TocContext";
 import { useUser } from "@/hooks/useUser";
 import { formatDate } from "@/lib/dates";
 import { PostWithUserResponse } from "@/lib/schemas/post";
@@ -49,7 +48,7 @@ const PostPage: React.FC = () => {
 	const isMyPost = post && user && post.authorId === user.id;
 
 	return (
-		<TocProvider>
+		<>
 			<Head>
 				<title>{post.title}</title>
 			</Head>
@@ -92,7 +91,7 @@ const PostPage: React.FC = () => {
 				</div>
 				<div className="w-72 flex-shrink-0 hidden xl:block" />
 			</div>
-		</TocProvider>
+		</>
 	);
 };
 

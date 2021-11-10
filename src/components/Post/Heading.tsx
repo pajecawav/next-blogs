@@ -1,8 +1,8 @@
-import { TocContext } from "@/contexts/TocContext";
 import { normalizePostSlug } from "@/lib/normalize";
+import { useTocStore } from "@/stores/useTocStore";
 import { LinkIcon } from "@heroicons/react/outline";
 import classNames from "classnames";
-import React, { DetailedHTMLProps, HTMLAttributes, useContext } from "react";
+import React, { DetailedHTMLProps, HTMLAttributes } from "react";
 import { Waypoint } from "react-waypoint";
 
 type Props = DetailedHTMLProps<
@@ -35,7 +35,8 @@ export function extractTextFromChildren(children: React.ReactNode): string {
 }
 
 export const Heading: React.FC<Props> = ({ level, children, ...props }) => {
-	const tocContext = useContext(TocContext);
+	const pushHeading = useTocStore(store => store.pushHeading);
+	const popHeading = useTocStore(store => store.popHeading);
 
 	const Component = `h${level}` as "h1";
 
@@ -47,13 +48,13 @@ export const Heading: React.FC<Props> = ({ level, children, ...props }) => {
 			id &&
 			(!arg.previousPosition || arg.previousPosition === Waypoint.below)
 		) {
-			tocContext?.pushHeading(id);
+			pushHeading(id);
 		}
 	};
 
 	const handleLeave = (arg: Waypoint.CallbackArgs) => {
 		if (id && arg.currentPosition === Waypoint.below) {
-			tocContext?.popHeading();
+			popHeading();
 		}
 	};
 
