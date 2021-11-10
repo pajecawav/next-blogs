@@ -2,6 +2,7 @@ import { withRouting } from "@/lib/routing";
 import { ratePostSchema } from "@/lib/schemas/post";
 import { AuthorizedRequest, withUser } from "@/lib/session";
 import { NextApiResponse } from "next";
+import db from "prisma/client";
 import * as yup from "yup";
 
 export default withRouting({
