@@ -3,6 +3,7 @@ import Link from "next/link";
 import React, { useEffect } from "react";
 import ReactMarkdown from "react-markdown";
 import { Heading } from "./Heading";
+import { ImageWithPreview } from "./ImageWithPreview";
 
 type Props = {
 	children: string;
@@ -67,6 +68,9 @@ export const Post: React.FC<Props> = ({ children }) => {
 						className="rounded bg-gray-100 px-4 py-2 leading-normal"
 						{...props}
 					/>
+				),
+				img: ({ src, alt }) => (
+					<ImageWithPreview src={src!} alt={alt!} />
 				),
 			}}
 		>
