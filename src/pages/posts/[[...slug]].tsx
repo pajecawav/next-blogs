@@ -115,7 +115,7 @@ const PostPage: React.FC = () => {
 									{formatDate(post.createdAt)}
 								</span>
 								{isMyPost && (
-									<Menu as="div" className="relative">
+									<Menu as="span" className="relative">
 										<Menu.Button className="align-middle">
 											<DotsHorizontalIcon className="w-5 h-5 text-gray-400" />
 										</Menu.Button>

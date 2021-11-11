@@ -24,7 +24,7 @@ export const ImageWithPreview: FC<Props> = ({ src, alt }) => {
 					className="fixed inset-0 z-10"
 					onClose={() => setIsOpen(false)}
 				>
-					<div className="min-h-screen px-4 text-center">
+					<div className="min-h-screen px-4">
 						<Transition.Child
 							as={Fragment}
 							enter="ease-out duration-200"
@@ -49,13 +49,12 @@ export const ImageWithPreview: FC<Props> = ({ src, alt }) => {
 							leave="ease-in duration-100"
 							leaveTo="opacity-0 scale-95"
 						>
-							<div className="inline-block w-full max-w-md my-8 overflow-hidden text-left align-middle transition-all transform bg-white shadow-xl rounded-md">
-								<button
-									className="outline-none"
+							<div className="inline-block w-full overflow-hidden align-middle transition-all transform bg-white shadow-xl rounded-md">
+								<img
+									src={src}
+									alt={alt}
 									onClick={() => setIsOpen(false)}
-								>
-									<img src={src} alt={alt} />
-								</button>
+								/>
 							</div>
 						</Transition.Child>
 					</div>
