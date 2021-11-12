@@ -34,4 +34,5 @@ const MyApp: React.FC<AppProps> = ({ Component, pageProps }) => {
 		</QueryClientProvider>
 	);
 };
+
 export default MyApp;

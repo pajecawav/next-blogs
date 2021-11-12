@@ -2,7 +2,7 @@ import { Button } from "@/components/Button";
 import { Input } from "@/components/Input";
 import { Textarea } from "@/components/Textarea";
 import { CreatePost, createPostSchema } from "@/lib/schemas/post";
-import { Form, Formik, FormikHelpers } from "formik";
+import { Field, Form, Formik, FormikHelpers } from "formik";
 import React, { useState } from "react";
 import { Post } from "./Post";
 
@@ -53,7 +53,7 @@ export const EditPostForm: React.FC<Props> = ({
 						</>
 					)}
 
-					<div className="flex gap-4">
+					<div className="flex gap-6">
 						<Button
 							type="button"
 							color="outlined"
@@ -62,8 +62,12 @@ export const EditPostForm: React.FC<Props> = ({
 							{preview ? "Edit" : "Preview"}
 						</Button>
 
+						<div className="ml-auto flex gap-1 items-center">
+							<Field id="draft" name="draft" type="checkbox" />
+							<label htmlFor="draft">Draft</label>
+						</div>
+
 						<Button
-							className="ml-auto"
 							type="submit"
 							disabled={!isValid || isSubmitting}
 							isProcessing={isSubmitting}

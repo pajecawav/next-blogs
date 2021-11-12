@@ -40,6 +40,10 @@ async function handleGET(
 			.json({ error: "Post with this id doesn't exist" });
 	}
 
+	if (post.draft && (!req.user || post.authorId !== req.user.id)) {
+		return res.status(403).json({ error: "Not allowed to view this post" });
+	}
+
 	let rating;
 	if (req.user) {
 		rating = await db.rating.findUnique({

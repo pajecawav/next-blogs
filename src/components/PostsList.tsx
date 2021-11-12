@@ -64,7 +64,7 @@ export const PostsList: React.FC<Props> = ({
 				))}
 
 				{isEmpty && (
-					<div className="h-28 ml-3 text-gray-500 italic">
+					<div className="h-20 ml-3 text-gray-500 italic">
 						No posts to display
 					</div>
 				)}

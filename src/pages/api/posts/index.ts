@@ -8,18 +8,26 @@ import {
 	updatePostSchema,
 } from "@/lib/schemas/post";
 import { userResponseSelect } from "@/lib/schemas/user";
-import { AuthorizedRequest, withUser } from "@/lib/session";
-import { NextApiRequest, NextApiResponse } from "next";
+import {
+	AuthorizedRequest,
+	OptionallyAuthorizedRequest,
+	withOptionalUser,
+	withUser,
+} from "@/lib/session";
+import { NextApiResponse } from "next";
 import db from "prisma/client";
 import { ValidationError } from "yup";
 
 export default withRouting({
-	GET: handleGET,
+	GET: withOptionalUser(handleGET),
 	POST: withUser(handlePOST),
 	PATCH: withUser(handlePATCH),
 });
 
-async function handleGET(req: NextApiRequest, res: NextApiResponse) {
+async function handleGET(
+	req: OptionallyAuthorizedRequest,
+	res: NextApiResponse
+) {
 	let query: PostsQuery;
 	try {
 		query = await postsQuerySchema.validate(req.query);
@@ -27,11 +35,19 @@ async function handleGET(req: NextApiRequest, res: NextApiResponse) {
 		console.log(e);
 		return res.status(400).json({ errors: (e as ValidationError).errors });
 	}
-	const { authorId, take = 10, createdAt, cursor } = query;
+	const { authorId, take = 10, createdAt, cursor, draft = false } = query;
 
+	const includeDrafts: boolean | undefined = draft
+		? authorId !== undefined &&
+		  req.user !== undefined &&
+		  authorId === req.user.id
+		: false;
+
+	// TODO: filter drafts based on user
 	const posts = await db.post.findMany({
 		where: {
 			authorId,
+			draft: includeDrafts,
 		},
 		take,
 		...(cursor && {

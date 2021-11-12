@@ -26,22 +26,42 @@ const UserPage: NextPage<Props> = ({ user }) => {
 					Joined at {formatDate(user.createdAt)}
 				</div>
 			</div>
-			<div>
-				<div className="flex">
-					<SectionTitle>Posts</SectionTitle>
-					{isMe && (
-						<Link href="/create-post">
-							<a className="ml-auto mb-1 self-end text-gray-500 transition-opacity duration-75 hover:opacity-50">
-								New Post
-							</a>
-						</Link>
-					)}
+			<div className="flex flex-col gap-4">
+				{isMe && (
+					<div>
+						<SectionTitle>My Drafts</SectionTitle>
+						<PostsList
+							query={{
+								authorId: user.id,
+								createdAt: "desc",
+								draft: true,
+							}}
+							showActions={isMe}
+							showAuthor={false}
+						/>
+					</div>
+				)}
+				<div>
+					<div className="flex">
+						<SectionTitle>Posts</SectionTitle>
+						{isMe && (
+							<Link href="/create-post">
+								<a className="ml-auto mb-1 self-end text-gray-500 transition-opacity duration-75 hover:opacity-50">
+									New Post
+								</a>
+							</Link>
+						)}
+					</div>
+					<PostsList
+						query={{
+							authorId: user.id,
+							createdAt: "desc",
+							draft: false,
+						}}
+						showActions={isMe}
+						showAuthor={false}
+					/>
 				</div>
-				<PostsList
-					query={{ authorId: user.id, createdAt: "desc" }}
-					showActions={isMe}
-					showAuthor={false}
-				/>
 			</div>
 		</div>
 	);

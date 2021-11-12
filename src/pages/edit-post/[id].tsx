@@ -53,6 +53,7 @@ const EditPostPage: NextPage<Props> = ({ error, post }) => {
 				initialValues={{
 					title: post.title,
 					body: post.body,
+					draft: post.draft,
 				}}
 				onSubmit={values => {
 					editPost(values);

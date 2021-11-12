@@ -1,6 +1,7 @@
-import { Post, User } from ".prisma/client";
+import { Post } from ".prisma/client";
 import * as yup from "yup";
 import { ObjectToBooleans } from "../types";
+import { UserResponse } from "./user";
 import { MakeUndefinesOptional, orderBySchema } from "./utils";
 
 export type PostResponse = Post & {
@@ -9,12 +10,13 @@ export type PostResponse = Post & {
 	placedRating?: -1 | 1;
 };
 
-export type PostWithUserResponse = PostResponse & { author: User };
+export type PostWithUserResponse = PostResponse & { author: UserResponse };
 
-export const postResponseSelect: ObjectToBooleans<PostResponse> = {
+export const postResponseSelect: ObjectToBooleans<Post> = {
 	id: true,
 	title: true,
 	body: true,
+	draft: true,
 	authorId: true,
 	createdAt: true,
 	updatedAt: true,
@@ -26,6 +28,7 @@ export const postsQuerySchema = yup.object({}).shape({
 	cursor: yup.number().positive().notRequired(),
 	authorId: yup.number().notRequired(),
 	createdAt: orderBySchema.notRequired(),
+	draft: yup.boolean().notRequired(),
 });
 
 export type PostsQuery = MakeUndefinesOptional<
@@ -40,6 +43,7 @@ export type PostsResponse = {
 export const createPostSchema = yup.object({}).shape({
 	title: yup.string().trim().required(),
 	body: yup.string().trim().required(),
+	draft: yup.boolean().optional(),
 });
 
 export type CreatePost = yup.Asserts<typeof createPostSchema>;

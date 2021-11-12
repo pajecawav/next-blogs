@@ -6,7 +6,7 @@ import { UpvoteButtons } from "@/components/Post/UpvoteButtons";
 import { UserLink } from "@/components/UserLink";
 import { useUser } from "@/hooks/useUser";
 import { formatDate } from "@/lib/dates";
-import { PostWithUserResponse } from "@/lib/schemas/post";
+import { PostWithUserResponse } from "@/lib/schemas/PostWithUserResponse";
 import { useTocStore } from "@/stores/useTocStore";
 import { Menu } from "@headlessui/react";
 import { DotsHorizontalIcon } from "@heroicons/react/outline";
@@ -97,7 +97,14 @@ const PostPage: React.FC = () => {
 				>
 					<div className="flex gap-4 mb-8">
 						<div className="flex flex-col gap-4 flex-grow">
-							<h1 className="text-4xl">{post.title}</h1>
+							<h1 className="text-4xl">
+								{post.draft && (
+									<span className="text-gray-400">
+										[Draft]{" "}
+									</span>
+								)}
+								{post.title}
+							</h1>
 							<div className="space-x-2">
 								<span>
 									by{" "}

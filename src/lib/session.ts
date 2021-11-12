@@ -61,11 +61,11 @@ export const withUser = (handler: AuthorizedApiHandler): NextApiHandler => {
 };
 
 export type OptionallyAuthorizedRequest = NextIronRequest & {
-	user: User;
+	user?: User;
 };
 
 export type OptionallyAuthorizedApiHandler<T = any> = (
-	req: AuthorizedRequest,
+	req: OptionallyAuthorizedRequest,
 	res: NextApiResponse<T>
 ) => void | Promise<void>;
 
