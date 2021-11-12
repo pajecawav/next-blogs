@@ -6,7 +6,7 @@ import { UpvoteButtons } from "@/components/Post/UpvoteButtons";
 import { UserLink } from "@/components/UserLink";
 import { useUser } from "@/hooks/useUser";
 import { formatDate } from "@/lib/dates";
-import { PostWithUserResponse } from "@/lib/schemas/PostWithUserResponse";
+import { PostWithUserResponse } from "@/lib/schemas/post";
 import { useTocStore } from "@/stores/useTocStore";
 import { Menu } from "@headlessui/react";
 import { DotsHorizontalIcon } from "@heroicons/react/outline";

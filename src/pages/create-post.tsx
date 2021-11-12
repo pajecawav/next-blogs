@@ -30,7 +30,7 @@ const CreatePostPage: NextPage = () => {
 	) : (
 		<div className="w-full max-w-3xl mx-auto bg-white pt-3 pb-5 px-5 rounded shadow-sm">
 			<EditPostForm
-				initialValues={{ title: "", body: "" }}
+				initialValues={{ title: "", body: "", draft: false }}
 				onSubmit={values => {
 					createPost(values);
 				}}
