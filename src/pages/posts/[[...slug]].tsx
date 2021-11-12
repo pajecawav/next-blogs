@@ -85,14 +85,14 @@ const PostPage: React.FC = () => {
 			<Head>
 				<title>{post.title}</title>
 			</Head>
-			<div className="w-full max-w-[96rem] mx-auto flex gap-2 px-2">
+			<div className="w-full max-w-[96rem] mx-auto flex gap-2 md:px-2">
 				<div className="w-72 flex-shrink-0 hidden lg:block">
 					<div className="px-4 py-2 bg-white rounded-md sticky top-20">
 						<TableOfContents title={post.title} text={post.body} />
 					</div>
 				</div>
 				<div
-					className="max-w-60 flex-grow flex-shrink pt-4 pb-4 px-6 bg-white shadow-sm rounded-md"
+					className="min-w-0 max-w-60 flex-grow flex-shrink pt-4 pb-4 px-2 bg-white shadow-sm rounded-md md:px-6"
 					ref={postRef}
 				>
 					<div className="flex gap-4 mb-8">
@@ -128,7 +128,8 @@ const PostPage: React.FC = () => {
 										</Menu.Button>
 										<PostActions
 											post={post}
-											position="right"
+											// TODO: use 'left' for mobile and 'right' otherwise
+											position="left"
 										/>
 									</Menu>
 								)}
