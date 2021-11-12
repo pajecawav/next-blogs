@@ -16,3 +16,10 @@ export const userResponseSelect: ObjectToBooleans<UserResponse> = {
 	bio: true,
 	createdAt: true,
 };
+
+export const userStatsSchema = yup.object({
+	rating: yup.number().required(),
+	posts: yup.number().required(),
+});
+
+export type UserStats = yup.Asserts<typeof userStatsSchema>;

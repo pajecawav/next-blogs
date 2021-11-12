@@ -1,5 +1,6 @@
 import { PostsList } from "@/components/PostsList";
 import { SectionTitle } from "@/components/SectionTitle";
+import { UserStats } from "@/components/UserStats";
 import { useUser } from "@/hooks/useUser";
 import { formatDate } from "@/lib/dates";
 import { UserResponse, userResponseSelect } from "@/lib/schemas/user";
@@ -25,6 +26,7 @@ const UserPage: NextPage<Props> = ({ user }) => {
 				<div className="text-gray-500">
 					Joined at {formatDate(user.createdAt)}
 				</div>
+				<UserStats id={user.id} />
 			</div>
 			<div className="flex flex-col gap-4">
 				{isMe && (
