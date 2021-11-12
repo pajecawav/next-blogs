@@ -20,13 +20,13 @@ export const UserStats = ({ id }: Props) => {
 	}
 
 	return (
-		<div className="flex gap-2">
+		<div className="flex gap-3">
 			<div className="flex gap-1 items-center" title="Rating">
-				<StarIcon className="w-4 h-4 inline" />
+				<StarIcon className="w-4 h-4 inline text-gray-500" />
 				<span>{stats?.rating}</span>
 			</div>
 			<div className="flex gap-1 items-center" title="Posts">
-				<DocumentTextIcon className="w-4 h-4 inline" />
+				<DocumentTextIcon className="w-4 h-4 inline text-gray-500" />
 				<span>{stats?.posts}</span>
 			</div>
 		</div>

@@ -29,18 +29,14 @@ async function handleGET(req: NextApiRequest, res: NextApiResponse) {
 			.json({ error: "User with this id doesn't exist" });
 	}
 
-	const ratingStats = await db.post.aggregate({
-		where: { authorId: id },
-		_sum: { rating: true },
-	});
-
-	const postStats = await db.post.aggregate({
+	const stats = await db.post.aggregate({
 		where: { authorId: id, draft: false },
+		_sum: { rating: true },
 		_count: true,
 	});
 
 	res.status(200).json({
-		rating: ratingStats._sum.rating,
-		posts: postStats._count,
+		rating: stats._sum.rating,
+		posts: stats._count,
 	});
 }
