@@ -1,10 +1,18 @@
 import { withRouting } from "@/lib/routing";
-import { userResponseSelect } from "@/lib/schemas/user";
+import { editUserSchema, userResponseSelect } from "@/lib/schemas/user";
+import {
+	AuthorizedApiHandler,
+	AuthorizedRequest,
+	withUser,
+} from "@/lib/session";
 import { NextApiRequest, NextApiResponse } from "next";
 import db from "prisma/client";
 import * as yup from "yup";
 
-export default withRouting({ GET: handleGET });
+export default withRouting({
+	GET: handleGET,
+	PATCH: withUser(handlePATCH),
+});
 
 const paramsSchema = yup.object({ id: yup.number().required() });
 
@@ -31,4 +39,33 @@ async function handleGET(req: NextApiRequest, res: NextApiResponse) {
 	}
 
 	res.status(200).json(user);
+}
+
+const patchParamsSchema = yup.object({ id: yup.number().required() });
+
+async function handlePATCH(req: AuthorizedRequest, res: NextApiResponse) {
+	let query;
+	let data;
+	try {
+		query = await patchParamsSchema.validate(req.query);
+		data = await editUserSchema.validate(req.body);
+	} catch (e) {
+		return res
+			.status(400)
+			.json({ errors: (e as yup.ValidationError).errors });
+	}
+	const { id } = query;
+
+	if (id !== req.user.id) {
+		return res
+			.status(403)
+			.json({ error: "Can only update your personal profile" });
+	}
+
+	await db.user.update({
+		where: { id },
+		data,
+	});
+
+	res.status(200).end();
 }

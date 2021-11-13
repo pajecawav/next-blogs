@@ -19,11 +19,12 @@ export const Textarea: React.FC<Props> = ({
 
 	return (
 		<TextareaAutosize
+			id={field.name}
 			className={classNames(
-				"px-2 py-1 resize-none transition-colors duration-100 rounded outline-none appearance-none font-sm text-primary-200",
+				"px-4 py-2 resize-none transition-colors duration-100 rounded outline-none appearance-none font-sm text-primary-200",
 				flat
 					? "border-0 bg-transparent border-b-2 border-gray-200"
-					: "border-2 border-gray-300 focus:border-gray-600",
+					: "border-2 focus:border-gray-400",
 				className
 			)}
 			{...field}

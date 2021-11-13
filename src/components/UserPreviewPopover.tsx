@@ -75,7 +75,14 @@ export const UserPreviewPopover = ({ id }: Props) => {
 						<span>{stats.posts} posts</span>
 					</div>
 				</div>
-				{user.bio && <div>{user.bio}</div>}
+				{user.bio
+					?.split("\n\n")
+					.filter(Boolean)
+					.map((text, index) => (
+						<p className="break-all" key={index}>
+							{text}
+						</p>
+					))}
 			</div>
 		</Transition>
 	);

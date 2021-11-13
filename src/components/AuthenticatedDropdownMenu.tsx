@@ -1,7 +1,12 @@
 import { useLogout } from "@/hooks/useLogout";
 import { useUser } from "@/hooks/useUser";
 import { Menu, Transition } from "@headlessui/react";
-import { LogoutIcon, PlusIcon, UserIcon } from "@heroicons/react/outline";
+import {
+	CogIcon,
+	LogoutIcon,
+	PlusIcon,
+	UserIcon,
+} from "@heroicons/react/outline";
 import classNames from "classnames";
 import React, { Fragment } from "react";
 import { UserLink } from "./UserLink";
@@ -48,8 +53,22 @@ export const AuthenticatedDropdownMenu: React.FC = () => {
 								)}
 							>
 								<UserIcon className="inline w-5 h-5" />
-								<span>My profile</span>
+								<span>My Profile</span>
 							</UserLink>
+						)}
+					</Menu.Item>
+					<Menu.Item>
+						{({ active }) => (
+							<WrappedLink
+								href="/settings"
+								className={classNames(
+									"flex gap-1 items-center text-left px-2 py-1 transition-colors duration-100",
+									active && "bg-gray-100"
+								)}
+							>
+								<CogIcon className="inline w-5 h-5" />
+								<span>Settings</span>
+							</WrappedLink>
 						)}
 					</Menu.Item>
 					<Menu.Item>

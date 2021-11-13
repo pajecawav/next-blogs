@@ -27,7 +27,14 @@ const UserPage: NextPage<Props> = ({ user }) => {
 					Joined at {formatDate(user.createdAt)}
 				</div>
 				<UserStats id={user.id} />
-				{user.bio && <p className="mt-4">{user.bio}</p>}
+				{user.bio
+					?.split("\n\n")
+					.filter(Boolean)
+					.map((text, index) => (
+						<p className="mt-4 break-all" key={index}>
+							{text}
+						</p>
+					))}
 			</div>
 			<div className="flex flex-col gap-4">
 				{isMe && (
