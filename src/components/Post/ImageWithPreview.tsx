@@ -24,7 +24,7 @@ export const ImageWithPreview: FC<Props> = ({ src, alt }) => {
 					className="fixed inset-0 z-10"
 					onClose={() => setIsOpen(false)}
 				>
-					<div className="min-h-screen px-4">
+					<div className="h-screen w-screen p-4 flex items-center justify-center">
 						<Transition.Child
 							as={Fragment}
 							enter="ease-out duration-200"
@@ -35,13 +35,6 @@ export const ImageWithPreview: FC<Props> = ({ src, alt }) => {
 							<Dialog.Overlay className="fixed inset-0 bg-gray-900/50" />
 						</Transition.Child>
 
-						{/* This element is to trick the browser into centering the modal contents. */}
-						<span
-							className="inline-block h-screen align-middle"
-							aria-hidden="true"
-						>
-							&#8203;
-						</span>
 						<Transition.Child
 							as={Fragment}
 							enter="ease-out duration-200"
@@ -49,13 +42,12 @@ export const ImageWithPreview: FC<Props> = ({ src, alt }) => {
 							leave="ease-in duration-100"
 							leaveTo="opacity-0 scale-95"
 						>
-							<div className="inline-block w-full overflow-hidden align-middle transition-all transform bg-white shadow-xl rounded-md">
-								<img
-									src={src}
-									alt={alt}
-									onClick={() => setIsOpen(false)}
-								/>
-							</div>
+							<img
+								className="max-w-full max-h-full bg-white transform shadow-xl rounded-md"
+								src={src}
+								alt={alt}
+								onClick={() => setIsOpen(false)}
+							/>
 						</Transition.Child>
 					</div>
 				</Dialog>
