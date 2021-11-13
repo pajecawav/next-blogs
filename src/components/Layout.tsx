@@ -19,7 +19,7 @@ export const Layout: React.FC<Props> = ({ children }) => {
 	return (
 		<div>
 			<Header />
-			<div className="mx-auto mt-3 mb-8 px-1 md:px-0 md:mt-10">
+			<div className="mx-auto mt-3 mb-1 px-1 md:px-0 md:mt-10 md:mb-8">
 				{children}
 			</div>
 		</div>

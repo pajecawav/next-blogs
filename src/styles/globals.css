@@ -24,7 +24,11 @@ html {
 }
 
 #nprogress .bar {
-	@apply bg-black;
+	background: black;
+}
+
+#nprogress .spinner {
+	display: none;
 }
 
 .TOC-highlighted::after {
