@@ -61,7 +61,7 @@ export const UserPreviewPopover = ({ id }: Props) => {
 			appear={true}
 			show={true}
 		>
-			<div className="w-96 absolute right-10 z-10 flex flex-col gap-3 px-4 py-2 bg-white shadow-lg rounded-sm border text-sm">
+			<div className="max-w-sm w-max absolute right-10 z-10 flex flex-col gap-3 px-4 py-2 bg-white shadow-lg rounded-sm border text-sm">
 				<div className="italic">
 					Joined on {formatDate(user.createdAt)}
 				</div>

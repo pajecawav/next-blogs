@@ -59,7 +59,7 @@ export const PostListEntry: React.FC<PostListEntryProps> = ({
 			{showActions && (
 				<Menu
 					as="div"
-					className="relative md:absolute md:-right-7 top-0 bottom-0"
+					className="relative md:absolute md:-right-7 md:pl-2 top-0 bottom-0"
 				>
 					<Menu.Button className="h-full align-middle">
 						<DotsHorizontalIcon className="w-5 h-5 text-gray-400 transition-opacity duration-100 rotate-0 md:opacity-0 md:rotate-90 group-hover:opacity-100" />
