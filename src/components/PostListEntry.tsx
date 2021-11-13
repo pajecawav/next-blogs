@@ -2,10 +2,11 @@ import { formatShortTimeAgo } from "@/lib/dates";
 import { PostWithUserResponse } from "@/lib/schemas/post";
 import { Menu } from "@headlessui/react";
 import { DotsHorizontalIcon } from "@heroicons/react/outline";
-import React from "react";
+import React, { useState } from "react";
 import { PostActions } from "./Post/PostActions";
 import { Postlink } from "./PostLink";
 import { UserLink } from "./UserLink";
+import { UserPreviewPopover } from "./UserPreviewPopover";
 
 type PostListEntryProps = {
 	post: PostWithUserResponse;
@@ -18,6 +19,8 @@ export const PostListEntry: React.FC<PostListEntryProps> = ({
 	showActions = false,
 	showAuthor = true,
 }) => {
+	const [showPreview, setShowPreview] = useState(false);
+
 	const createdAt = new Date(post.createdAt);
 
 	return (
@@ -31,12 +34,20 @@ export const PostListEntry: React.FC<PostListEntryProps> = ({
 				</Postlink>
 			</span>
 			{showAuthor && (
-				<UserLink
-					username={post.author.username}
-					className="text-sm text-gray-500 hover:opacity-50"
-				>
-					{post.author.username}
-				</UserLink>
+				<div className="relative">
+					<div
+						onMouseEnter={() => setShowPreview(true)}
+						onMouseLeave={() => setShowPreview(false)}
+					>
+						<UserLink
+							username={post.author.username}
+							className="text-sm text-gray-500 hover:opacity-50"
+						>
+							{post.author.username}
+						</UserLink>
+					</div>
+					{showPreview && <UserPreviewPopover id={post.authorId} />}
+				</div>
 			)}
 			<span
 				className="text-sm"
