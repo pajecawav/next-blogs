@@ -4,6 +4,7 @@ import { PostActions } from "@/components/Post/PostActions";
 import { TableOfContents } from "@/components/Post/TableOfContents";
 import { UpvoteButtons } from "@/components/Post/UpvoteButtons";
 import { UserLink } from "@/components/UserLink";
+import { useMediaQuery } from "@/hooks/useMediaQuery";
 import { useUser } from "@/hooks/useUser";
 import { formatDate } from "@/lib/dates";
 import { PostWithUserResponse } from "@/lib/schemas/post";
@@ -19,6 +20,7 @@ import { useQuery } from "react-query";
 
 const PostPage: React.FC = () => {
 	const { user } = useUser();
+	const isMediumOrLarger = useMediaQuery("md");
 	const router = useRouter();
 	const postRef = useRef<HTMLDivElement>(null);
 	const setCurrentHeading = useTocStore(store => store.setCurrentHeading);
@@ -128,8 +130,11 @@ const PostPage: React.FC = () => {
 										</Menu.Button>
 										<PostActions
 											post={post}
-											// TODO: use 'left' for mobile and 'right' otherwise
-											position="left"
+											position={
+												isMediumOrLarger
+													? "right"
+													: "left"
+											}
 										/>
 									</Menu>
 								)}
