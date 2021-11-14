@@ -12,7 +12,7 @@ export const ImageWithPreview: FC<Props> = ({ src, alt }) => {
 	return (
 		<>
 			<img
-				className="w-4/5 mx-auto cursor-pointer"
+				className="w-4/5 mx-auto my-4 cursor-pointer"
 				onClick={() => setIsOpen(true)}
 				src={src}
 				alt={alt}

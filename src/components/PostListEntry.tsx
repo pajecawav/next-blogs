@@ -1,3 +1,4 @@
+import { useMediaQuery } from "@/hooks/useMediaQuery";
 import { formatShortTimeAgo } from "@/lib/dates";
 import { PostWithUserResponse } from "@/lib/schemas/post";
 import { Menu } from "@headlessui/react";
@@ -20,6 +21,13 @@ export const PostListEntry: React.FC<PostListEntryProps> = ({
 	showAuthor = true,
 }) => {
 	const [showPreview, setShowPreview] = useState(false);
+	const isMediumOrLarger = useMediaQuery("md");
+
+	const toggleShowPreview = (value: boolean) => {
+		if (isMediumOrLarger) {
+			setShowPreview(value);
+		}
+	};
 
 	const createdAt = new Date(post.createdAt);
 
@@ -36,8 +44,8 @@ export const PostListEntry: React.FC<PostListEntryProps> = ({
 			{showAuthor && (
 				<div className="relative">
 					<div
-						onMouseEnter={() => setShowPreview(true)}
-						onMouseLeave={() => setShowPreview(false)}
+						onMouseEnter={() => toggleShowPreview(true)}
+						onMouseLeave={() => toggleShowPreview(false)}
 					>
 						<UserLink
 							username={post.author.username}
