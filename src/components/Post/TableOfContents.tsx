@@ -10,14 +10,14 @@ type Props = {
 
 const TocEntry: FC<{ title: string }> = ({ title }) => {
 	const currentHeading = useTocStore(store => store.currentHeading);
+	const isActive = normalizePostSlug(title) === currentHeading;
 
 	return (
 		<li>
 			<a
 				className={classNames(
-					"text-gray-500 hover:text-gray-900",
-					normalizePostSlug(title) === currentHeading &&
-						"text-black TOC-highlighted"
+					"TOC-entry text-gray-500 hover:text-gray-900",
+					isActive && "text-black TOC-entry_highlighted"
 				)}
 				href={`#${normalizePostSlug(title)}`}
 			>

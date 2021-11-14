@@ -31,7 +31,17 @@ html {
 	display: none;
 }
 
-.TOC-highlighted::after {
-	content: "•";
-	@apply ml-1;
+.TOC-entry {
+	background-image: linear-gradient(
+		theme("colors.gray.400"),
+		theme("colors.gray.300")
+	);
+	background-size: 0 2px;
+	background-position: 0% 100%;
+	background-repeat: no-repeat;
+	transition: background-size 0.4s ease 0s;
+}
+
+.TOC-entry_highlighted {
+	background-size: 100% 2px;
 }
