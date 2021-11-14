@@ -9,7 +9,7 @@ export const LoadingPlaceholder: React.FC<Props> = ({
 }) => {
 	return (
 		<svg
-			className={classNames("animate-spin text-gray-400", className)}
+			className={classNames("animate-spin", className)}
 			xmlns="http://www.w3.org/2000/svg"
 			fill="none"
 			viewBox="0 0 24 24"
