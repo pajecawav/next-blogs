@@ -3,8 +3,9 @@ import { Menu, Transition } from "@headlessui/react";
 import { PencilIcon, TrashIcon } from "@heroicons/react/outline";
 import classNames from "classnames";
 import { useRouter } from "next/router";
-import { FC, Fragment, useState } from "react";
+import React, { FC, Fragment, useState } from "react";
 import { DeletePostConfirmation } from "../DeletePostCofirmation";
+import { MenuItemIcon } from "../MenuItemIcon";
 import { WrappedLink } from "../WrappedLink";
 
 type Props = {
@@ -28,7 +29,7 @@ export const PostActions: FC<Props> = ({ post, position = "left" }) => {
 			>
 				<Menu.Items
 					className={classNames(
-						"absolute origin-top-left flex flex-col shadow-lg z-10 py-1 w-40 border bg-white rounded-md",
+						"absolute origin-top-left flex flex-col shadow-lg z-10 py-1 w-40 border bg-white rounded-md text-xl sm:text-base",
 						position === "left" ? "right-0" : "left-0"
 					)}
 				>
@@ -41,7 +42,7 @@ export const PostActions: FC<Props> = ({ post, position = "left" }) => {
 									active && "bg-gray-100"
 								)}
 							>
-								<PencilIcon className="inline w-4 h-4" />
+								<MenuItemIcon icon={PencilIcon} />
 								<span>Edit</span>
 							</WrappedLink>
 						)}
@@ -55,7 +56,7 @@ export const PostActions: FC<Props> = ({ post, position = "left" }) => {
 								)}
 								onClick={() => setIsDeleteOpen(true)}
 							>
-								<TrashIcon className="inline w-4 h-4" />
+								<MenuItemIcon icon={TrashIcon} />
 								<span>Delete</span>
 							</button>
 						)}

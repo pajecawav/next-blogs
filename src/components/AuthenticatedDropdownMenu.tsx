@@ -9,6 +9,7 @@ import {
 } from "@heroicons/react/outline";
 import classNames from "classnames";
 import React, { Fragment } from "react";
+import { MenuItemIcon } from "./MenuItemIcon";
 import { UserLink } from "./UserLink";
 import { WrappedLink } from "./WrappedLink";
 
@@ -28,7 +29,7 @@ export const AuthenticatedDropdownMenu: React.FC = () => {
 				leave="transition ease-in duration-50"
 				leaveTo="opacity-0 translate-y-0.5"
 			>
-				<Menu.Items className="flex flex-col shadow-lg absolute z-10 mt-4 py-1 w-40 transform -translate-x-full left-full border bg-white rounded-sm">
+				<Menu.Items className="flex flex-col shadow-lg absolute z-10 mt-4 py-1 w-40 transform -translate-x-full left-full border bg-white rounded-sm text-xl sm:text-base">
 					<Menu.Item>
 						{({ active }) => (
 							<WrappedLink
@@ -38,7 +39,7 @@ export const AuthenticatedDropdownMenu: React.FC = () => {
 									active && "bg-gray-100"
 								)}
 							>
-								<PlusIcon className="inline w-5 h-5" />
+								<MenuItemIcon icon={PlusIcon} />
 								<span>New Post</span>
 							</WrappedLink>
 						)}
@@ -52,7 +53,7 @@ export const AuthenticatedDropdownMenu: React.FC = () => {
 									active && "bg-gray-100"
 								)}
 							>
-								<UserIcon className="inline w-5 h-5" />
+								<MenuItemIcon icon={UserIcon} />
 								<span>My Profile</span>
 							</UserLink>
 						)}
@@ -66,7 +67,7 @@ export const AuthenticatedDropdownMenu: React.FC = () => {
 									active && "bg-gray-100"
 								)}
 							>
-								<CogIcon className="inline w-5 h-5" />
+								<MenuItemIcon icon={CogIcon} />
 								<span>Settings</span>
 							</WrappedLink>
 						)}
@@ -80,7 +81,7 @@ export const AuthenticatedDropdownMenu: React.FC = () => {
 								)}
 								onClick={() => logout()}
 							>
-								<LogoutIcon className="inline w-5 h-5" />
+								<MenuItemIcon icon={LogoutIcon} />
 								<span>Log out</span>
 							</button>
 						)}

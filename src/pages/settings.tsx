@@ -41,7 +41,7 @@ const SettingsPage: NextPage = () => {
 	}
 
 	return (
-		<div className="w-full max-w-2xl mx-auto bg-white pt-3 pb-5 px-5 rounded shadow-sm">
+		<div className="w-full max-w-2xl mx-auto bg-white pt-3 pb-5 px-2 ault:md:px-5 rounded shadow-sm">
 			<Formik
 				initialValues={{ bio: user!.bio }}
 				onSubmit={data => editUser(data)}
