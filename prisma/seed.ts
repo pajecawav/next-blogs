@@ -1,6 +1,7 @@
 import { Prisma } from "@prisma/client";
 import dayjs from "dayjs";
 import faker from "faker";
+import { countWords } from "../src/lib/post";
 import { getPasswordHash } from "../src/lib/security";
 import db from "./client";
 
@@ -28,14 +29,16 @@ async function randomUsersInput(
 }
 
 function randomPostInput(authorId: number): Prisma.PostCreateManyInput {
+	const body = faker.lorem.paragraphs(10, "\n\n");
 	return {
 		title: faker.lorem.words(6),
-		body: faker.lorem.paragraphs(10, "\n\n"),
+		body,
 		authorId,
 		createdAt: faker.date.between(
 			NOW.subtract(3, "year").toDate(),
 			NOW.toDate()
 		),
+		words: countWords(body),
 	};
 }
 

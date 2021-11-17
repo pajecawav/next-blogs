@@ -21,6 +21,7 @@ export const postResponseSelect: ObjectToBooleans<Post> = {
 	createdAt: true,
 	updatedAt: true,
 	rating: true,
+	words: true,
 };
 
 export const postsQuerySchema = yup.object({}).shape({

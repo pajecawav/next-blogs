@@ -1,3 +1,4 @@
+import { countWords } from "@/lib/post";
 import { withRouting } from "@/lib/routing";
 import {
 	CreatePost,
@@ -76,7 +77,7 @@ async function handlePOST(req: AuthorizedRequest, res: NextApiResponse) {
 	}
 
 	const post = await db.post.create({
-		data: { ...data, authorId: req.user.id },
+		data: { ...data, authorId: req.user.id, words: countWords(data.body) },
 	});
 
 	res.status(200).json(post);
@@ -105,9 +106,17 @@ async function handlePATCH(req: AuthorizedRequest, res: NextApiResponse) {
 			.json({ error: "Not authorized to edit this post" });
 	}
 
+	let newWordsCount;
+	if (data.body) {
+		newWordsCount = countWords(data.body);
+	}
+
 	await db.post.update({
 		where: { id: data.id },
-		data,
+		data: {
+			...data,
+			...(newWordsCount && { words: newWordsCount }),
+		},
 	});
 
 	res.status(200).end();
