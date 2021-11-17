@@ -45,7 +45,7 @@ export const UpvoteButtons: FC<Props> = ({ postId, rating, placedRating }) => {
 	return (
 		<div className="flex flex-col -space-y-1 items-center text-gray-400">
 			<button
-				className={classNames(placedRating === 1 && "text-green-500")}
+				className={classNames(placedRating === 1 && "text-blue-500")}
 				onClick={() => {
 					if (placedRating !== 1) {
 						placeRating(1);
@@ -56,7 +56,7 @@ export const UpvoteButtons: FC<Props> = ({ postId, rating, placedRating }) => {
 			</button>
 			<div>{rating}</div>
 			<button
-				className={classNames(placedRating === -1 && "text-green-500")}
+				className={classNames(placedRating === -1 && "text-blue-500")}
 				onClick={() => {
 					if (placedRating !== -1) {
 						placeRating(-1);

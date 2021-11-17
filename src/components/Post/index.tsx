@@ -26,7 +26,7 @@ export const Post: React.FC<Props> = ({ children }) => {
 				a: ({ node, children, href, ...props }) => (
 					<Link href={href as string} {...props}>
 						<a
-							className="text-green-500 hover:opacity-50"
+							className="text-blue-500 hover:opacity-75"
 							title={href}
 						>
 							{children}
@@ -63,6 +63,15 @@ export const Post: React.FC<Props> = ({ children }) => {
 					<ul className="ml-5 list-inside list-disc" {...props} />
 				),
 				p: ({ node, ...props }) => <p {...props} className="my-4" />,
+				code: ({ node, inline, ...props }) => (
+					<code
+						className={classNames(
+							inline &&
+								"px-2 py-1 rounded bg-gray-200 text-blue-500"
+						)}
+						{...props}
+					/>
+				),
 				pre: ({ node, ...props }) => (
 					<pre
 						className="rounded bg-gray-100 px-4 py-2 leading-normal overflow-x-auto"
