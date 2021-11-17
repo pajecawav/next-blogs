@@ -25,7 +25,7 @@ export const postResponseSelect: ObjectToBooleans<Post> = {
 };
 
 export const postsQuerySchema = yup.object({}).shape({
-	take: yup.number().positive().max(50).notRequired(),
+	take: yup.number().integer().positive().max(50).notRequired(),
 	cursor: yup.number().positive().notRequired(),
 	authorId: yup.number().notRequired(),
 	createdAt: orderBySchema.notRequired(),

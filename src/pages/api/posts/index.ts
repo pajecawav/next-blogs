@@ -50,7 +50,7 @@ async function handleGET(
 			authorId,
 			draft: includeDrafts,
 		},
-		take,
+		take: take + 1,
 		...(cursor && {
 			skip: 1,
 			cursor: { id: cursor },
@@ -61,9 +61,15 @@ async function handleGET(
 		},
 	});
 
+	let nextCursor;
+	if (posts.length === take + 1) {
+		const lastPost = posts.pop();
+		nextCursor = lastPost!.id;
+	}
+
 	res.status(200).json({
 		posts,
-		nextCursor: posts.length > 0 ? posts[posts.length - 1].id : undefined,
+		nextCursor,
 	});
 }
 
