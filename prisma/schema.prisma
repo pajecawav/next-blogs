@@ -15,6 +15,8 @@ model User {
   bio          String?
   Post         Post[]
   Rating       Rating[]
+
+  @@map("users")
 }
 
 model Post {
@@ -31,6 +33,8 @@ model Post {
 
   rating  Int      @default(0)
   ratings Rating[]
+
+  @@map("posts")
 }
 
 model Rating {
@@ -42,4 +46,5 @@ model Rating {
   userId Int
 
   @@id([postId, userId])
+  @@map("ratings")
 }
