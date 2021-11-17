@@ -47,6 +47,7 @@ export const AuthenticatedDropdownMenu: React.FC = () => {
 					<Menu.Item>
 						{({ active }) => (
 							<UserLink
+								id={user!.id}
 								username={user!.username}
 								className={classNames(
 									"flex gap-1 items-center text-left px-2 py-1 transition-colors duration-100",

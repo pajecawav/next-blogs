@@ -20,14 +20,7 @@ export const PostListEntry: React.FC<PostListEntryProps> = ({
 	showActions = false,
 	showAuthor = true,
 }) => {
-	const [showPreview, setShowPreview] = useState(false);
 	const isMediumOrLarger = useMediaQuery("md");
-
-	const toggleShowPreview = (value: boolean) => {
-		if (isMediumOrLarger) {
-			setShowPreview(value);
-		}
-	};
 
 	const createdAt = new Date(post.createdAt);
 
@@ -42,20 +35,14 @@ export const PostListEntry: React.FC<PostListEntryProps> = ({
 				</Postlink>
 			</span>
 			{showAuthor && (
-				<div className="relative">
-					<div
-						onMouseEnter={() => toggleShowPreview(true)}
-						onMouseLeave={() => toggleShowPreview(false)}
-					>
-						<UserLink
-							username={post.author.username}
-							className="text-sm text-gray-500 hover:opacity-50"
-						>
-							{post.author.username}
-						</UserLink>
-					</div>
-					{showPreview && <UserPreviewPopover id={post.authorId} />}
-				</div>
+				<UserLink
+					className="text-sm text-gray-500 hover:opacity-50"
+					id={post.authorId}
+					username={post.author.username}
+					preview={isMediumOrLarger}
+				>
+					{post.author.username}
+				</UserLink>
 			)}
 			<span
 				className="text-sm"

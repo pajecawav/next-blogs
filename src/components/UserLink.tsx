@@ -1,19 +1,54 @@
 import { LinkProps } from "next/link";
-import React, { AnchorHTMLAttributes, DetailedHTMLProps } from "react";
+import React, {
+	AnchorHTMLAttributes,
+	DetailedHTMLProps,
+	useState,
+} from "react";
+import { UserPreviewPopover } from "./UserPreviewPopover";
 import { WrappedLink } from "./WrappedLink";
 
 type Props = {
+	id: number;
 	username: string;
+	preview?: boolean;
 } & Omit<LinkProps, "href"> &
-	DetailedHTMLProps<
-		AnchorHTMLAttributes<HTMLAnchorElement>,
-		HTMLAnchorElement
+	Omit<
+		DetailedHTMLProps<
+			AnchorHTMLAttributes<HTMLAnchorElement>,
+			HTMLAnchorElement
+		>,
+		"id"
 	>;
 
-export const UserLink: React.FC<Props> = ({ username, children, ...props }) => {
+export const UserLink = ({
+	id,
+	username,
+	preview = false,
+	children,
+	...props
+}: Props) => {
+	const [showPreview, setShowPreview] = useState(false);
+
+	const togglePreview = (value: boolean) => {
+		if (preview) {
+			setShowPreview(value);
+		}
+	};
+
 	return (
-		<WrappedLink href={`/users/${username.toLowerCase()}`} {...props}>
-			{children}
-		</WrappedLink>
+		<span className="relative">
+			<span
+				onMouseEnter={() => togglePreview(true)}
+				onMouseLeave={() => togglePreview(false)}
+			>
+				<WrappedLink
+					href={`/users/${username.toLowerCase()}`}
+					{...props}
+				>
+					{children}
+				</WrappedLink>
+			</span>
+			{preview && showPreview && <UserPreviewPopover id={id} />}
+		</span>
 	);
 };

@@ -111,8 +111,9 @@ const PostPage: React.FC = () => {
 								<span>
 									by{" "}
 									<UserLink
-										username={post.author.username}
 										className="font-bold hover:opacity-50"
+										id={post.authorId}
+										username={post.author.username}
 									>
 										{post.author.username}
 									</UserLink>
