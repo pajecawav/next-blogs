@@ -89,7 +89,7 @@ const PostPage: React.FC = () => {
 			</Head>
 			<div className="w-full max-w-[96rem] mx-auto flex gap-2 md:px-2">
 				<div className="w-72 flex-shrink-0 hidden lg:block">
-					<div className="px-4 py-2 bg-white rounded-md sticky top-20">
+					<div className="px-4 py-2 bg-white rounded-md sticky top-20 max-h-[80vh] overflow-y-auto overscroll-y-contain">
 						<TableOfContents title={post.title} text={post.body} />
 					</div>
 				</div>
