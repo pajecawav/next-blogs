@@ -79,7 +79,13 @@ export const Post: React.FC<Props> = ({ children }) => {
 					/>
 				),
 				img: ({ src, alt }) => (
-					<ImageWithPreview src={src!} alt={alt!} />
+					<ImageWithPreview
+						src={src!}
+						alt={alt!}
+						width="300"
+						height="200"
+						loading="lazy"
+					/>
 				),
 			}}
 		>

@@ -1,12 +1,9 @@
 import { Dialog, Transition } from "@headlessui/react";
-import React, { FC, Fragment, useState } from "react";
+import React, { ComponentProps, Fragment, useState } from "react";
 
-type Props = {
-	src: string;
-	alt: string;
-};
+type Props = ComponentProps<"img">;
 
-export const ImageWithPreview: FC<Props> = ({ src, alt }) => {
+export const ImageWithPreview = ({ src, alt, ...props }: Props) => {
 	const [isOpen, setIsOpen] = useState(false);
 
 	return (
@@ -16,6 +13,7 @@ export const ImageWithPreview: FC<Props> = ({ src, alt }) => {
 				onClick={() => setIsOpen(true)}
 				src={src}
 				alt={alt}
+				{...props}
 			/>
 
 			<Transition appear show={isOpen} as={Fragment}>
