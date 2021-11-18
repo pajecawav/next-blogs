@@ -46,8 +46,11 @@ export const Heading: React.FC<Props> = ({ level, children, ...props }) => {
 		>
 			<span className="mr-3">{children}</span>
 			{id && (
-				<a href={`#${id}`} className="inline-block align-middle">
-					<LinkIcon className="w-5 h-5 opacity-0 transition-opacity duration-75 group-hover:opacity-100" />
+				<a
+					href={`#${id}`}
+					className="inline-block align-middle opacity-0 transition-opacity duration-75 group-hover:opacity-100 focus:opacity-100"
+				>
+					<LinkIcon className="w-5 h-5" />
 				</a>
 			)}
 		</Component>

@@ -2,6 +2,7 @@ import classNames from "classnames";
 import Link from "next/link";
 import React, { useEffect } from "react";
 import ReactMarkdown from "react-markdown";
+import { CodeBlock } from "./CodeBlock";
 import { Heading } from "./Heading";
 import { ImageWithPreview } from "./ImageWithPreview";
 
@@ -63,18 +64,18 @@ export const Post: React.FC<Props> = ({ children }) => {
 					<ul className="ml-5 list-inside list-disc" {...props} />
 				),
 				p: ({ node, ...props }) => <p {...props} className="my-4" />,
-				code: ({ node, inline, ...props }) => (
-					<code
-						className={classNames(
-							inline &&
-								"px-2 py-1 rounded bg-gray-200 text-blue-500"
-						)}
-						{...props}
-					/>
-				),
+				code: ({ node, inline, ...props }) =>
+					inline ? (
+						<code
+							className="px-2 py-1 rounded bg-gray-200 text-blue-500"
+							{...props}
+						/>
+					) : (
+						<CodeBlock {...props} />
+					),
 				pre: ({ node, ...props }) => (
 					<pre
-						className="rounded bg-gray-100 px-4 py-2 leading-normal overflow-x-auto"
+						className="rounded bg-gray-100 leading-normal"
 						{...props}
 					/>
 				),
